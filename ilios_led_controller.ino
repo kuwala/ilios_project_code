@@ -51,14 +51,15 @@ int B5 = 0;
 
 void setup() {
 
-  Serial.begin(9600);
+  Serial.begin(230240);
 
   // Initialize pixel strips
   // pixels.setBrightness(64);
+  Serial.print("ilios_led_controller starting");
   pixels.begin();
 
    // pixels2.begin();
-   Serial.print("ilios_led_controller starting");
+
 
 
   // Proximity_controller
@@ -67,10 +68,11 @@ void setup() {
 
   // Initialize the Wire library.
   Wire.begin();
+  initSensors();
 }
 
 void loop() {
-
+  Serial.println("started main looooop");
   sensorLoop();
   /*
   readSerial();
