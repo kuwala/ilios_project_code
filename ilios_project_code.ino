@@ -20,10 +20,10 @@
 
 
 // LED strip pin
-#define PIN          3
+#define PIN          A15
 //#define PIN2           4
 
-#define NUMPIXELS 80
+#define NUMPIXELS 16
 
 unsigned long timer = 0;
 int timeInterval = 20; //the delay time between steps
@@ -74,6 +74,8 @@ void setup() {
 }
 void loop() {
 
+  Serial.println("sensor loop starting");
+  sensorLoop();
   /* // Old LED loop
   readSerial();
   //delay(100);
@@ -87,12 +89,13 @@ void loop() {
   //delay step
 
   //read readRangeStatus
-  keepReadingSensors();
-  Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
-  R2 = sens2;
-  G2 = sens3;
-  B2 = sens4;
-  drawLEDS(R2,G2,B2);
+  // // keepReadingSensors();
+  // Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+  // R2 = sens2;
+  // G2 = sens3;
+  // B2 = sens4;
+  // drawLEDS(120,30,180);
+  // drawLEDS(R2,G2,B2);
 
 
 

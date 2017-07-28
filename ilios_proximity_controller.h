@@ -396,7 +396,7 @@ byte readRangeResult(byte deviceID)
 
 	 while(!Wire.available())
 	 {
-		 Serial.println("waiting inside readRangeResult");
+		//  Serial.println("waiting inside readRangeResult");
 	 }
 
 	 return Wire.read();
@@ -421,7 +421,7 @@ byte readRangeResult(byte deviceID)
 
 	 while(!Wire.available())
 	 {
-		 Serial.println("waiting inside readRangestatus");
+		//  Serial.println("waiting inside readRangestatus");
 	 }
 
 	 return Wire.read();
