@@ -26,7 +26,9 @@
 #define NUMPIXELS 80
 
 unsigned long timer = 0;
-int timeInterval = 100;
+int timeInterval = 20; //the delay time between steps
+int timeStep = 0; // what step are we on 0, 1, 2 ... -> 0
+
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 //Adafruit_NeoPixel pixels2 = Adafruit_NeoPixel(NUMPIXELS, PIN2, NEO_GRB + NEO_KHZ800);
 
@@ -70,16 +72,30 @@ void setup() {
   Wire.begin();
   initSensors();
 }
-
 void loop() {
-  Serial.println("started main looooop");
-  sensorLoop();
-  /*
+
+  /* // Old LED loop
   readSerial();
   //delay(100);
   drawLEDS(R2,G2,B2);
   //updateLEDS();
   */
+
+  //start ranges
+
+
+  //delay step
+
+  //read readRangeStatus
+  keepReadingSensors();
+  Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+  R2 = sens2;
+  G2 = sens3;
+  B2 = sens4;
+  drawLEDS(R2,G2,B2);
+
+
+
 
 }
 
@@ -128,6 +144,69 @@ void updateLEDS() {
     timer = millis();
   }
   Serial.println("updating leds");
+}
+
+void readRanges() {
+  sens1 = readRangeResult(Add_1);
+  sens2 = readRangeResult(Add_2);
+  sens3 = readRangeResult(Add_3);
+  sens4 = readRangeResult(Add_4);
+  sens5 = readRangeResult(Add_5);
+  sens6 = readRangeResult(Add_6);
+
+  sens7 = readRangeResult(Add_7);
+  sens8 = readRangeResult(Add_8);
+  sens9 = readRangeResult(Add_9);
+  sens10 = readRangeResult(Add_22);
+  sens11 = readRangeResult(Add_23);
+  sens12 = readRangeResult(Add_24);
+//    sens13 = readRangeResult(Add_10);
+//    sens14 = readRangeResult(Add_11);
+//    sens15 = readRangeResult(Add_12);
+//    sens16 = readRangeResult(Add_19);
+//    sens17 = readRangeResult(Add_20);
+//    sens18 = readRangeResult(Add_21);
+}
+void startRanges() {
+  startRange(Add_1);
+  startRange(Add_2);
+  startRange(Add_3);
+  startRange(Add_4);
+  startRange(Add_5);
+  startRange(Add_6);
+
+  startRange(Add_7);
+  startRange(Add_8);
+  startRange(Add_9);
+  startRange(Add_22);
+  startRange(Add_23);
+  startRange(Add_24);
+//    startRange(Add_10);
+//    startRange(Add_11);
+//    startRange(Add_12);
+//    startRange(Add_19);
+//    startRange(Add_20);
+//    startRange(Add_21);
+}
+
+void keepReadingSensors() {
+
+  // timeInterval is 20 millis
+  // tunes for the proximity sensors
+  if (millis() - timer > timeInterval) {
+    timer = millis();
+    timeStep += 1;
+  }
+
+  //
+  if (timeStep == 1) {
+    //
+    startRanges();
+  } else if (timeStep >= 2) {
+    //
+    readRanges();
+    timeStep = 0;
+  }
 }
 
 void drawLEDS(int r, int g, int b) {
