@@ -23,7 +23,8 @@
 #define PIN          A15
 //#define PIN2           4
 
-#define NUMPIXELS 16
+// 12 pixels per set
+#define NUMPIXELS 24
 
 unsigned long timer = 0;
 unsigned long timer2 = 0;
@@ -92,12 +93,16 @@ void loop() {
 
   //read readRangeStatus
     keepReadingSensors();
-   R2 = sens2;
-   G2 = sens3;
-   B2 = sens4;
+   R = sens1;
+   G = sens2;
+   B = sens3;
+   R2 = sens4;
+   G2 = sens5;
+   B2 = sens6;
    printSerial();
    //drawLEDS(120,30,180);
-   drawLEDS(R2,G2,B2);
+   drawLEDS(0, R,G,B);
+   drawLEDS(1, R2,G2,B2);
 
 
 
@@ -224,8 +229,12 @@ void keepReadingSensors() {
   
 }
 
-void drawLEDS(int r, int g, int b) {
-  for(int i=0;i<NUMPIXELS;i++){
+void drawLEDS(int set, int r, int g, int b) {
+  int pixelSetLength = 12;
+  int start = pixelSetLength * set;
+  int end = start + pixelSetLength;
+  
+  for(int i=start;i<end;i++){
     pixels.setPixelColor(i, pixels.Color(r, g, b));
 
   }
