@@ -24,7 +24,7 @@
 //#define PIN2           4
 
 // 12 pixels per set
-#define NUMPIXELS 24
+#define NUMPIXELS 36
 
 unsigned long timer = 0;
 unsigned long timer2 = 0;
@@ -60,7 +60,7 @@ void setup() {
 
   // Initialize pixel strips
   // pixels.setBrightness(64);
-  Serial.print("ilios_led_controller starting");
+ // Serial.print("ilios_led_controller starting");
   pixels.begin();
 
    // pixels2.begin();
@@ -93,17 +93,30 @@ void loop() {
 
   //read readRangeStatus
     keepReadingSensors();
-   R = sens1;
-   G = sens2;
-   B = sens3;
-   R2 = sens4;
-   G2 = sens5;
-   B2 = sens6;
+   R = sens4;
+   G = sens5;
+   B = sens6;
+   R2 = sens7;
+   G2 = sens8;
+   B2 = sens9;
+   R3 = sens10;
+   G3 = sens11;
+   B3 = sens12;
+R = 255 - R;
+G = 255 - G;
+B = 255 - B;
+R2 = 255 - R2;
+G2 = 255 - G2;
+B2 = 255 - B2;
+R3 = 255 - R3;
+G3 = 255 - G3;
+B3 = 255 - B3;
+
    printSerial();
    //drawLEDS(120,30,180);
    drawLEDS(0, R,G,B);
    drawLEDS(1, R2,G2,B2);
-
+   drawLEDS(2, R3,G3,B3);
 
 
 
@@ -112,6 +125,7 @@ void printSerial() {
 
   if (millis() - timer2 > timeInterval2) {
     timer2 = millis();
+    
     Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
   }
 }
@@ -120,35 +134,6 @@ void readSerial() {
 
     if(Serial.available()) {
 
-
-    R2 = Serial.read();
-    G2 = Serial.read();
-    B2 = Serial.read();
-//    R = Serial.read();
-//    G = Serial.read();
-//    B = Serial.read();
-//    R3 = Serial.read();
-//    G3 = Serial.read();
-//    B3 = Serial.read();
-//    R4 = Serial.read();
-//    G4 = Serial.read();
-//    B4 = Serial.read();
-//    R5 = Serial.read();
-//    G5 = Serial.read();
-//    B5 = Serial.read();
-
-    if(R2 == -1) {
-      R2 = 0;
-    }
-
-    if(B2 == -1) {
-      B2 = 0;
-    }
-
-    if(G2 == -1) {
-      G2 = 0;
-
-    }
     //Serial.println(String("R2 ") + R2 + String(" G2 ") + G2 + String(" B2 ") + B2);
   }
 
@@ -160,7 +145,7 @@ void updateLEDS() {
     //randomLEDS();
     timer = millis();
   }
-  Serial.println("updating leds");
+ // Serial.println("updating leds");
 }
 
 void readRanges() {
