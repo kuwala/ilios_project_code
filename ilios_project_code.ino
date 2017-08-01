@@ -18,6 +18,7 @@
 
 #include "ilios_proximity_controller.h"
 #include "rgb_smoothing_variables.h"
+#include "LEDFaces.h"
 
 
 // LED strip pin
@@ -90,20 +91,6 @@ void setup() {
 }
 void loop() {
 
-  //  Serial.println("sensor loop starting");
-  //  sensorLoop();
-  /* // Old LED loop
-    readSerial();
-    //delay(100);
-    drawLEDS(R2,G2,B2);
-    //updateLEDS();
-  */
-
-  //start ranges
-
-
-  //delay step
-
   //read readRangeStatus
   keepReadingSensors();
   R = sens4;
@@ -115,6 +102,7 @@ void loop() {
   R3 = sens10;
   G3 = sens11;
   B3 = sens12;
+
   R = 255 - R;
   G = 255 - G;
   B = 255 - B;
@@ -127,7 +115,6 @@ void loop() {
 
 
   printSerial();
-  //drawLEDS(120,30,180);
   smoothRGBReading();
   smoothRGB2Reading();
   smoothRGB3Reading();
@@ -136,8 +123,6 @@ void loop() {
   drawLEDS(0, rAverage, gAverage, bAverage);
   drawLEDS(1, r2Average, g2Average, b2Average);
   drawLEDS(2, r3Average, g3Average, b3Average);
-
-
 
 }
 
@@ -171,15 +156,7 @@ void readSerial() {
   }
 
 }
-void updateLEDS() {
-  // Timer base draw leds
-  // This will be useful if we want to incorporate animations or multi led patterns
-  if (millis() - timer > timeInterval) {
-    //randomLEDS();
-    timer = millis();
-  }
-  // Serial.println("updating leds");
-}
+
 
 void readRanges() {
   sens1 = readRangeResult(Add_1);
@@ -247,25 +224,8 @@ void keepReadingSensors() {
 
 }
 
-void drawLEDS(int set, int r, int g, int b) {
-  int pixelSetLength = 12;
-  int start = pixelSetLength * set;
-  int end = start + pixelSetLength;
-
-  for (int i = start; i < end; i++) {
-    pixels.setPixelColor(i, pixels.Color(r, g, b));
-
-  }
-
-  pixels.show();
-
-
-}
-
-
-
 // RGB smoothing functions quick test
-// Needs to be optimized 
+// Needs to be optimized
 
 void smoothRGBReading() {
   // raw values
@@ -359,6 +319,3 @@ void smoothRGB3Reading() {
   }
   b3Average = b3Total / NUMREADINGS;
 }
-
-
-
