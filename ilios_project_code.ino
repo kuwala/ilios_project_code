@@ -204,7 +204,13 @@ void keepReadingSensors() {
   // timeInterval is 20 millis
   // tunes for the proximity sensors
   if (millis() - timer > timeInterval) {
-    timer = millis();
+
+    // unsigned long tTest = millis() - timer ;
+    //  Serial.println("Timer Test start:");
+    // tTest = millis() - timer;
+    // Serial.println(tTest);
+    // Serial.println("Timer Test end:");
+
     timeStep += 1;
 
     if (timeStep == 1) {
@@ -216,6 +222,7 @@ void keepReadingSensors() {
       timeStep = 0;
     }
 
+    timer = millis();
   }
 
 }

@@ -1,7 +1,7 @@
 //Smoothing Test
 
 // Samples read for the average function
-#define NUMREADINGS 4
+#define NUMREADINGS 50
 
 class AverageSmoother  {
 public:
