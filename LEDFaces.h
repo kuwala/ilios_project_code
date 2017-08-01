@@ -20,6 +20,8 @@ class LEDFaces {
     CRGB outputLeds[NUMPIXELS];
     CRGB pulseColor;
     CRGB pulseValue;
+    float pulseScaler;
+    float pulseScalerMax;
     //CRGB LEDS[NUM_LEDS_IN_STRIP];
     unsigned long dimTimer;
     int dimTimerInterval;
@@ -32,8 +34,10 @@ class LEDFaces {
     pulseTimer = 0;
     pulseTimerInterval = 500;
     dimTimer = 0;
-    dimTimerInterval = 10;
+    dimTimerInterval = 2;
     pulseColor = CRGB(127,0,0);
+    pulseScaler = 0.1;
+    pulseScalerMax = 1.5;
     // pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
   }
@@ -48,12 +52,24 @@ class LEDFaces {
   void updatePulse() {
     // Trigger pulse
     if(millis() - pulseTimer > pulseTimerInterval) {
-      pulseValue = CRGB(32, 0, 16);
+      pulseValue = CRGB(10, 0, 4);
       pulseTimer = millis();
+      pulseScaler = pulseScalerMax;
     }
     // Dim pulse
     if(millis() - dimTimer > dimTimerInterval) {
+      Serial.println("OUT R");
+      outputLeds[0].r = outputLeds[0].r * pulseScaler;
+      Serial.println(outputLeds[0].r);
+      Serial.println(" END R ");
       pulseValue.fadeToBlackBy(10);
+
+      // dim the pulse scaler
+      if (pulseScaler > 0.5) {
+        pulseScaler -= 0.01;
+        Serial.println("pulse Scaler");
+        Serial.println(pulseScaler);
+      }
       dimTimer = millis();
     }
 
@@ -86,9 +102,20 @@ class LEDFaces {
 
     }
   }
+  void pulseOutputLEDS() {
+    for (size_t i = 0; i < NUMPIXELS; i++) {
+      // sensorLeds[i] *= pulseScaler;
+      outputLeds[i].r = outputLeds[0].r * pulseScaler;
+      outputLeds[i].g = outputLeds[i].g * pulseScaler;
+      outputLeds[i].b = outputLeds[i].b * pulseScaler;
+    }
+  }
   void addSensorLEDS() {
     for (size_t i = 0; i < NUMPIXELS; i++) {
       outputLeds[i] += sensorLeds[i];
+      // outputLeds[i].r += sensorLeds[i].r;
+      // outputLeds[i].g += sensorLeds[i].g;
+      // outputLeds[i].b += sensorLeds[i].b;
       // outputLeds[i] += CRGB::Red;
     }
   }
@@ -106,9 +133,10 @@ class LEDFaces {
     // Clear the strip
     resetLEDSOUT();
     // Add rgb values from sensors to strip
+    pulseOutputLEDS();
     addSensorLEDS();
     // add pulse RGB values to strip
-    addPulseLEDS();
+    // addPulseLEDS();
     // pulse
     FastLED.show();
   }
