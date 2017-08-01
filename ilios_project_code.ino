@@ -21,8 +21,9 @@
 #include "LEDFaces.h"
 
 
+
 // LED strip pin
-#define PIN          A15
+#define PIN A15
 //#define PIN2           4
 
 // 12 pixels per set
@@ -37,8 +38,10 @@ int timeStep = 0; // what step are we on 0, 1, 2 ... -> 0
 unsigned long pulseTimer = 0;
 int pulseTimeInterval = 40;
 
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-//Adafruit_NeoPixel pixels2 = Adafruit_NeoPixel(NUMPIXELS, PIN2, NEO_GRB + NEO_KHZ800);
+// Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+// NeoPixel faces
+LEDFaces faces = LEDFaces();
 
 // Variables that store color values from sensors
 int R = 0;
@@ -68,7 +71,8 @@ void setup() {
   // Initialize pixel strips
   // pixels.setBrightness(64);
   // Serial.print("ilios_led_controller starting");
-  pixels.begin();
+  // pixels.begin();
+  faces.begin();
 
   // pixels2.begin();
 
@@ -91,6 +95,9 @@ void setup() {
 }
 void loop() {
 
+  // Smoothing idea
+  // R = smoother1[sens4];
+  // G = smoother2[sense5];
   //read readRangeStatus
   keepReadingSensors();
   R = sens4;
@@ -119,10 +126,16 @@ void loop() {
   smoothRGB2Reading();
   smoothRGB3Reading();
 
+
   //sudoPulseLEDS();
-  drawLEDS(0, rAverage, gAverage, bAverage);
-  drawLEDS(1, r2Average, g2Average, b2Average);
-  drawLEDS(2, r3Average, g3Average, b3Average);
+  // drawLEDS(0, rAverage, gAverage, bAverage);
+  // drawLEDS(1, r2Average, g2Average, b2Average);
+  // drawLEDS(2, r3Average, g3Average, b3Average);
+
+  faces.drawLEDS(0, rAverage, gAverage, bAverage);
+  faces.drawLEDS(1, r2Average, g2Average, b2Average);
+  faces.drawLEDS(2, r3Average, g3Average, b3Average);
+  faces.show();
 
 }
 
@@ -140,22 +153,16 @@ void sudoPulseLEDS() {
 
 
 void printSerial() {
-
   if (millis() - timer2 > timeInterval2) {
     timer2 = millis();
-
     Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
   }
-}
-
+} // end Serial
 void readSerial() {
-
   if (Serial.available()) {
-
     //Serial.println(String("R2 ") + R2 + String(" G2 ") + G2 + String(" B2 ") + B2);
   }
-
-}
+} // end Serial
 
 
 void readRanges() {
@@ -220,9 +227,19 @@ void keepReadingSensors() {
 
   }
 
-  //
-
 }
+
+// void drawLEDS(int set, int r, int g, int b) {
+//   int pixelSetLength = 12;
+//   int start = pixelSetLength * set;
+//   int end = start + pixelSetLength;
+//
+//   for (int i = start; i < end; i++) {
+//     pixels.setPixelColor(i, pixels.Color(r, g, b));
+//
+//   }
+//   pixels.show();
+// }
 
 // RGB smoothing functions quick test
 // Needs to be optimized
