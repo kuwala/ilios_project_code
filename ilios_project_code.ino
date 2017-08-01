@@ -47,8 +47,8 @@ LEDFaces faces = LEDFaces();
 int R = 0;
 int G = 0;
 int B = 0;
-int S = 0;
-int q = 0;
+// int S = 0;
+// int q = 0;
 int R2 = 0;
 int G2 = 0;
 int B2 = 0;
@@ -136,9 +136,15 @@ void loop() {
   // faces.drawLEDS(1, R2,G2,B2);
   // faces.drawLEDS(2, R3,G3,B3);
 
-  faces.drawLEDS(0, rAverage, gAverage, bAverage);
-  faces.drawLEDS(1, r2Average, g2Average, b2Average);
-  faces.drawLEDS(2, r3Average, g3Average, b3Average);
+  // faces.drawLEDS(0, rAverage, gAverage, bAverage);
+  // faces.drawLEDS(1, r2Average, g2Average, b2Average);
+  // faces.drawLEDS(2, r3Average, g3Average, b3Average);
+  faces.writeSensorLEDS(0, rAverage, gAverage, bAverage);
+  faces.writeSensorLEDS(1, r2Average, g2Average, b2Average);
+  faces.writeSensorLEDS(2, r3Average, g3Average, b3Average);
+  // faces.fastLEDTest();
+  // faces.update();
+  faces.updatePulse();
   faces.show();
 
 }
