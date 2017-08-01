@@ -210,12 +210,12 @@ void initPins(void)
  digitalWrite(GPIO_16, LOW);
  digitalWrite(GPIO_17, LOW);
  digitalWrite(GPIO_18, LOW);
-//  digitalWrite(GPIO_19, LOW);
-//  digitalWrite(GPIO_20, LOW);
-//  digitalWrite(GPIO_21, LOW);
-//  digitalWrite(GPIO_22, LOW);
-//  digitalWrite(GPIO_23, LOW);
-//  digitalWrite(GPIO_24, LOW);
+ digitalWrite(GPIO_19, LOW);
+ digitalWrite(GPIO_20, LOW);
+ digitalWrite(GPIO_21, LOW);
+ digitalWrite(GPIO_22, LOW);
+ digitalWrite(GPIO_23, LOW);
+ digitalWrite(GPIO_24, LOW);
 
  delayMicroseconds(200);
 
@@ -239,12 +239,12 @@ void initPins(void)
  pinMode(GPIO_16, OUTPUT);
  pinMode(GPIO_17, OUTPUT);
  pinMode(GPIO_18, OUTPUT);
-//  pinMode(GPIO_19, OUTPUT);
-//  pinMode(GPIO_20, OUTPUT);
-//  pinMode(GPIO_21, OUTPUT);
-//  pinMode(GPIO_22, OUTPUT);
-//  pinMode(GPIO_23, OUTPUT);
-//  pinMode(GPIO_24, OUTPUT);
+ pinMode(GPIO_19, OUTPUT);
+ pinMode(GPIO_20, OUTPUT);
+ pinMode(GPIO_21, OUTPUT);
+ pinMode(GPIO_22, OUTPUT);
+ pinMode(GPIO_23, OUTPUT);
+ pinMode(GPIO_24, OUTPUT);
 }
 
 void initSensors(void)

@@ -66,13 +66,12 @@ int B5 = 0;
 
 void setup() {
 
-  Serial.begin(230240);
+
 
   // Initialize pixel strips
   // pixels.setBrightness(64);
   // Serial.print("ilios_led_controller starting");
   // pixels.begin();
-  faces.begin();
 
   // pixels2.begin();
 
@@ -84,6 +83,8 @@ void setup() {
 
   // Initialize the Wire library.
   Wire.begin();
+
+  Serial.begin(230240);
   initSensors();
 
   // Init smoothing test
@@ -92,6 +93,9 @@ void setup() {
     gReadings[i] = 0;
     bReadings[i] = 0;
   }
+
+  faces.begin();
+
 }
 void loop() {
 
@@ -128,9 +132,9 @@ void loop() {
 
 
   //sudoPulseLEDS();
-  // drawLEDS(0, rAverage, gAverage, bAverage);
-  // drawLEDS(1, r2Average, g2Average, b2Average);
-  // drawLEDS(2, r3Average, g3Average, b3Average);
+  // faces.drawLEDS(0, R,G,B);
+  // faces.drawLEDS(1, R2,G2,B2);
+  // faces.drawLEDS(2, R3,G3,B3);
 
   faces.drawLEDS(0, rAverage, gAverage, bAverage);
   faces.drawLEDS(1, r2Average, g2Average, b2Average);
@@ -138,19 +142,6 @@ void loop() {
   faces.show();
 
 }
-
-void sudoPulseLEDS() {
-  if (millis() - pulseTimer > pulseTimeInterval) {
-    gTotal += 1000;
-    rTotal += 1000;
-    bTotal += 1000;
-    pulseTimer = millis();
-  }
-
-}
-
-
-
 
 void printSerial() {
   if (millis() - timer2 > timeInterval2) {
