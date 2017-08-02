@@ -72,7 +72,7 @@ void setup() {
   // Initialize the Wire library.
   Wire.begin();
 
-  Serial.begin(230240);
+  Serial.begin(230400);
   initSensors();
 
   // Init smoothing test
@@ -132,15 +132,16 @@ void loop() {
   faces.writeSensorLEDS(1, r2Average, g2Average, b2Average);
   faces.writeSensorLEDS(2, r3Average, g3Average, b3Average);
 
-  // int pulseValue = (rAverage + gAverage + bAverage) / 3
-  int minSens = minimumSensor(rAverage, gAverage, bAverage);
+  int pulse = maximumSensor(rAverage, gAverage, bAverage);
 
-  faces.updatePulseHSV(minSens);
-  faces.sensorToLEDHSV(0, rAverage, gAverage, minSens);
+  faces.updatePulseHSV(pulse);
+  // writeSensorLEDSHSV(face, hue, min, total)
+  int hue = rAverage;
+  int sat = 255;
+  int val = (rAverage + gAverage + bAverage) / 3;
 
-  // // faces.fastLEDTest();
-  // // faces.update();
-  // // faces.updatePulse();
+  faces.writeSensorLEDSHSV(0, hue, sat, val, pulse);
+
   faces.show();
 
 }
@@ -165,6 +166,17 @@ int minimumSensor(int sen1, int sen2, int sen3 ) {
     val = sen2;
   }
   if (sen3 < val ) {
+    val = sen3;
+  }
+  return val;
+}
+int maximumSensor(int sen1, int sen2, int sen3) {
+  // returns the smallest of the 3 input sensors
+  int val = sen1;
+  if (sen2 > val) {
+    val = sen2;
+  }
+  if (sen3 > val ) {
     val = sen3;
   }
   return val;
