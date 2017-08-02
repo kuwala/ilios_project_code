@@ -132,16 +132,12 @@ void loop() {
   faces.writeSensorLEDS(1, r2Average, g2Average, b2Average);
   faces.writeSensorLEDS(2, r3Average, g3Average, b3Average);
 
-  int pulseValue = (rAverage + gAverage + bAverage) / 3;
+  // int pulseValue = (rAverage + gAverage + bAverage) / 3
+  int minSens = minimumSensor(rAverage, gAverage, bAverage);
 
-  faces.updatePulseHSV(pulseValue);
-  faces.writeSensorLEDSHSV(0, rAverage, gAverage, bAverage, pulseValue);
-  // faces.hsvPulse(0, rAverage);
+  faces.updatePulseHSV(minSens);
+  faces.sensorToLEDHSV(0, rAverage, gAverage, minSens);
 
-  // faces.hsvPulse(0, rAverage);
-  // faces.hsvPulse(1, rAverage);
-  // faces.hsvPulse(2, rAverage);
-  //
   // // faces.fastLEDTest();
   // // faces.update();
   // // faces.updatePulse();
@@ -162,6 +158,17 @@ void readSerial() {
   }
 } // end Serial
 
+int minimumSensor(int sen1, int sen2, int sen3 ) {
+  // returns the smallest of the 3 input sensors
+  int val = sen1;
+  if (sen2 < val) {
+    val = sen2;
+  }
+  if (sen3 < val ) {
+    val = sen3;
+  }
+  return val;
+}
 
 void readRanges() {
   sens1 = readRangeResult(Add_1);

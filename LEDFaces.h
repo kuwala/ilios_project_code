@@ -3,6 +3,7 @@
 
 // 12 * 3 faces
 #define NUMPIXELS 36
+#define NUMFACES 3
 #define PIN A15
 #define RGB 3
 
@@ -22,16 +23,19 @@ class LEDFaces {
     // int pulseTimerInterval;
     float pulseAngle;
     int pulseValue;
+    float pulseScale;
+    int pulseScales[NUMFACES];
     int hueValue;
     int saturationValue;
 
   LEDFaces() {
     numFaces = 3;
     ledsPerFace = 12;
-    pulseColor = CRGB(127,0,0);
+
+    // Pulse
     pulseAngle = 0;
-    pulseValue = 0;
     hueValue = 0;
+    pulseScale = 0;
     // pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
   }
@@ -55,7 +59,11 @@ class LEDFaces {
 
     // scale the sensor input
     pulseValue = abs(sin(pulseAngle)) * sensor;
+    pulseScale = abs(sin(pulseAngle));
     hueValue += 1;
+  }
+  void updatePulseScale() {
+    pulseScale = abs(sin(pulseAngle));
   }
 
   void fastLEDTest() {
@@ -65,18 +73,23 @@ class LEDFaces {
     FastLED.show();
   }
 
-  void writeSensorLEDSHSV(int face, int hSensor, int sValue, int valSensor, int totalSensor) {
+  void sensorToLEDHSV(int face, int hSensor, int sSensor, int vSensor) {
     // Calculate position of pixels per face on the whole strip
     // ie: face 0 is 0 - 11, face 1 is 12 - 23, ...
     int start = ledsPerFace * face;
     int end = start + ledsPerFace;
+
+    // HSV
     int hue = hSensor;
-    int sat = 155 + map(sValue, 0, 255, 0, 100);
-    int val = map(totalSensor, 0, 255, 0, 127) + map(pulseValue, 0, 255, 0, 127);
+    // int sat = 155 + map(sValue, 0, 255, 0, 100);
+
+    //Brightness
+    int pulseValue = int(pulseScale * vSensor);
+    int brightness = map(hSensor, 0, 255, 0, 127) + map(pulseValue, 0, 255, 0, 127);
 
     for (int i = start; i < end; i++) {
       // pixels.setPixelColor(i, pixels.Color(r, g, b));
-      sensorLeds[i] = CHSV(hue, 255, val);
+      sensorLeds[i] = CHSV(hue, 255, brightness);
       // ledsReading[i].g = g;
       // ledsReading[i].b = b;
 
