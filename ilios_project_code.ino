@@ -65,22 +65,10 @@ int B5 = 0;
 
 
 void setup() {
-
-
-
-  // Initialize pixel strips
-  // pixels.setBrightness(64);
-  // Serial.print("ilios_led_controller starting");
-  // pixels.begin();
-
-  // pixels2.begin();
-
-
-
+  Serial.print("ilios_led_controller starting");
   // Proximity_controller
   // Initialize GPIO pins.
   initPins();
-
   // Initialize the Wire library.
   Wire.begin();
 
@@ -139,12 +127,24 @@ void loop() {
   // faces.drawLEDS(0, rAverage, gAverage, bAverage);
   // faces.drawLEDS(1, r2Average, g2Average, b2Average);
   // faces.drawLEDS(2, r3Average, g3Average, b3Average);
-  faces.writeSensorLEDS(0, rAverage, gAverage, bAverage);
+
+  // faces.writeSensorLEDS(0, rAverage, gAverage, bAverage);
   faces.writeSensorLEDS(1, r2Average, g2Average, b2Average);
   faces.writeSensorLEDS(2, r3Average, g3Average, b3Average);
-  // faces.fastLEDTest();
-  // faces.update();
-  faces.updatePulse();
+
+  int pulseValue = (rAverage + gAverage + bAverage) / 3;
+
+  faces.updatePulseHSV(pulseValue);
+  faces.writeSensorLEDSHSV(0, rAverage, gAverage, bAverage, pulseValue);
+  // faces.hsvPulse(0, rAverage);
+
+  // faces.hsvPulse(0, rAverage);
+  // faces.hsvPulse(1, rAverage);
+  // faces.hsvPulse(2, rAverage);
+  //
+  // // faces.fastLEDTest();
+  // // faces.update();
+  // // faces.updatePulse();
   faces.show();
 
 }
@@ -152,7 +152,8 @@ void loop() {
 void printSerial() {
   if (millis() - timer2 > timeInterval2) {
     timer2 = millis();
-    Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+    // Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+    Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
   }
 } // end Serial
 void readSerial() {
@@ -210,12 +211,6 @@ void keepReadingSensors() {
   // timeInterval is 20 millis
   // tunes for the proximity sensors
   if (millis() - timer > timeInterval) {
-
-    // unsigned long tTest = millis() - timer ;
-    //  Serial.println("Timer Test start:");
-    // tTest = millis() - timer;
-    // Serial.println(tTest);
-    // Serial.println("Timer Test end:");
 
     timeStep += 1;
 

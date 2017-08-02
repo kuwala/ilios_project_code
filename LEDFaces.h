@@ -10,34 +10,28 @@ class LEDFaces {
   public:
     int numFaces;
     int ledsPerFace;
-
-    // 2d array for holding RGB values of each LED
-    // needs to be optimized to smaller variable times other then ints
-    //int leds[RGB][NUMPIXELS];
-
-    // Adafruit_NeoPixel pixels;
+    // LED strip
     CRGB sensorLeds[NUMPIXELS];
     CRGB outputLeds[NUMPIXELS];
     CRGB pulseColor;
-    CRGB pulseValue;
-    float pulseScaler;
-    float pulseScalerMax;
+
     //CRGB LEDS[NUM_LEDS_IN_STRIP];
-    unsigned long dimTimer;
-    int dimTimerInterval;
-    unsigned long pulseTimer;
-    int pulseTimerInterval;
+    // unsigned long dimTimer;
+    // int dimTimerInterval;
+    // unsigned long pulseTimer;
+    // int pulseTimerInterval;
+    float pulseAngle;
+    int pulseValue;
+    int hueValue;
+    int saturationValue;
 
   LEDFaces() {
     numFaces = 3;
     ledsPerFace = 12;
-    pulseTimer = 0;
-    pulseTimerInterval = 500;
-    dimTimer = 0;
-    dimTimerInterval = 2;
     pulseColor = CRGB(127,0,0);
-    pulseScaler = 0.1;
-    pulseScalerMax = 1.5;
+    pulseAngle = 0;
+    pulseValue = 0;
+    hueValue = 0;
     // pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
   }
@@ -49,44 +43,44 @@ class LEDFaces {
     // show();
   }
 
-  void updatePulse() {
-    // Trigger pulse
-    if(millis() - pulseTimer > pulseTimerInterval) {
-      pulseValue = CRGB(10, 0, 4);
-      pulseTimer = millis();
-      pulseScaler = pulseScalerMax;
-    }
-    // Dim pulse
-    if(millis() - dimTimer > dimTimerInterval) {
-      Serial.println("OUT R");
-      outputLeds[0].r = outputLeds[0].r * pulseScaler;
-      Serial.println(outputLeds[0].r);
-      Serial.println(" END R ");
-      pulseValue.fadeToBlackBy(10);
-
-      // dim the pulse scaler
-      if (pulseScaler > 0.5) {
-        pulseScaler -= 0.01;
-        Serial.println("pulse Scaler");
-        Serial.println(pulseScaler);
-      }
-      dimTimer = millis();
-    }
-
-      // pulseValue.fadeToBlackBy(1);
-    // if(pulseValue > 0) {
-    // } else {
-    //   pulseValue = 0;
+  void updatePulseHSV(int sensor) {
+    // if(millis() - pulseTimer > pulseTimerInterval) {
+    //   pulseTimer = millis();
     // }
+    // if(millis() - dimTimer > dimTimerInterval) {
+    //   dimTimer = millis();
+    // }
+    // sensor = 255 - sensor;
+    pulseAngle += 0.05; // speed of pulse
 
-    // makes the leds pulse
+    // scale the sensor input
+    pulseValue = abs(sin(pulseAngle)) * sensor;
+    hueValue += 1;
   }
 
   void fastLEDTest() {
     for (size_t i = 0; i < NUMPIXELS; i++) {
-      outputLeds[i] = CRGB::Blue;
+      outputLeds[i] = CHSV(255,255,255);
     }
     FastLED.show();
+  }
+
+  void writeSensorLEDSHSV(int face, int hSensor, int sValue, int valSensor, int totalSensor) {
+    // Calculate position of pixels per face on the whole strip
+    // ie: face 0 is 0 - 11, face 1 is 12 - 23, ...
+    int start = ledsPerFace * face;
+    int end = start + ledsPerFace;
+    int hue = hSensor;
+    int sat = 155 + map(sValue, 0, 255, 0, 100);
+    int val = map(totalSensor, 0, 255, 0, 127) + map(pulseValue, 0, 255, 0, 127);
+
+    for (int i = start; i < end; i++) {
+      // pixels.setPixelColor(i, pixels.Color(r, g, b));
+      sensorLeds[i] = CHSV(hue, 255, val);
+      // ledsReading[i].g = g;
+      // ledsReading[i].b = b;
+
+    }
   }
   void writeSensorLEDS(int face, int r, int g, int b) {
     // Calculate position of pixels per face on the whole strip
@@ -95,28 +89,21 @@ class LEDFaces {
     int end = start + ledsPerFace;
 
     for (int i = start; i < end; i++) {
-      // pixels.setPixelColor(i, pixels.Color(r, g, b));
       sensorLeds[i] = CRGB(r, g, b);
-      // ledsReading[i].g = g;
-      // ledsReading[i].b = b;
 
     }
   }
-  void pulseOutputLEDS() {
-    for (size_t i = 0; i < NUMPIXELS; i++) {
-      // sensorLeds[i] *= pulseScaler;
-      outputLeds[i].r = outputLeds[0].r * pulseScaler;
-      outputLeds[i].g = outputLeds[i].g * pulseScaler;
-      outputLeds[i].b = outputLeds[i].b * pulseScaler;
+
+  void hsvPulse(int face, int sensor) {
+    int start = ledsPerFace * face;
+    int end = start + ledsPerFace;
+    for (int i = start; i < end; i++) {
+      sensorLeds[i]= CHSV(hueValue, 255,pulseValue);
     }
   }
   void addSensorLEDS() {
     for (size_t i = 0; i < NUMPIXELS; i++) {
       outputLeds[i] += sensorLeds[i];
-      // outputLeds[i].r += sensorLeds[i].r;
-      // outputLeds[i].g += sensorLeds[i].g;
-      // outputLeds[i].b += sensorLeds[i].b;
-      // outputLeds[i] += CRGB::Red;
     }
   }
   void addPulseLEDS() {
@@ -133,7 +120,7 @@ class LEDFaces {
     // Clear the strip
     resetLEDSOUT();
     // Add rgb values from sensors to strip
-    pulseOutputLEDS();
+    // pulseOutputLEDS();
     addSensorLEDS();
     // add pulse RGB values to strip
     // addPulseLEDS();
