@@ -18,6 +18,7 @@ class LEDFaces {
     float pulseScale;
     int pulseValue;
     int saturationValue;
+    int face0Brightness;
 
   LEDFaces() {
     numFaces = 3;
@@ -25,6 +26,7 @@ class LEDFaces {
     pulseColor = CRGB(127,0,0);
     pulseAngle = 0;
     pulseValue = 0;
+    face0Brightness = 0;
   }
 
   void begin() {
@@ -40,11 +42,18 @@ class LEDFaces {
     // }
     // sensor = 255 - sensor;
 
-    pulseAngle += 0.08; // speed of pulse
+    pulseAngle += 0.04; // speed of pulse
 
     // scale the sensor input
     // pulseValue = abs(sin(pulseAngle)) * sensor;
     pulseScale = abs(sin(pulseAngle));
+  }
+
+  float getPulseScale() {
+    return pulseScale;
+  }
+  float getFaceBrightness(int face) {
+    return face0Brightness;
   }
 
   void fastLEDTest() {
@@ -68,8 +77,8 @@ class LEDFaces {
 
 
     // total value (brightness) is the addition of the pulse and the brightness
-    int val = map(brightVal, 0, 255, 0, 127) + map(scaledPulseValue, 0, 255, 0, 64);
-
+    int val = map(brightVal, 0, 255, 0, 127) + map(scaledPulseValue, 0, 255, 0, 127);
+    face0Brightness = val;
 
     for (int i = start; i < end; i++) {
       sensorLeds[i] = CHSV(hue, sat, val);

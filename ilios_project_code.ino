@@ -31,7 +31,7 @@
 
 unsigned long timer = 0;
 unsigned long timer2 = 0;
-int timeInterval2 = 40;
+int timeInterval2 = 1;
 int timeInterval = 20; //the delay time between steps
 int timeStep = 0; // what step are we on 0, 1, 2 ... -> 0
 
@@ -62,7 +62,7 @@ int R5 = 0;
 int G5 = 0;
 int B5 = 0;
 
-
+int face0Brightness = 0;
 
 void setup() {
   // Proximity_controller
@@ -111,7 +111,7 @@ void loop() {
   G3 = 255 - G3;
   B3 = 255 - B3;
 
-
+  face0Brightness = pyramid.getFaceBrightness(0);
   printSerial();
   smoothRGBReading();
   smoothRGB2Reading();
@@ -195,7 +195,8 @@ void printSerial() {
   if (millis() - timer2 > timeInterval2) {
     timer2 = millis();
     // Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
-    Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+    // Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+    Serial.println(face0Brightness);
   }
 } // end Serial
 void readSerial() {
