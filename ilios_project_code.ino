@@ -41,7 +41,7 @@ int pulseTimeInterval = 40;
 // Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 // NeoPixel faces
-LEDFaces faces = LEDFaces();
+LEDFaces pyramid = LEDFaces();
 
 // Variables that store color values from sensors
 int R = 0;
@@ -65,7 +65,6 @@ int B5 = 0;
 
 
 void setup() {
-  Serial.print("ilios_led_controller starting");
   // Proximity_controller
   // Initialize GPIO pins.
   initPins();
@@ -75,14 +74,14 @@ void setup() {
   Serial.begin(230400);
   initSensors();
 
-  // Init smoothing test
+  // Init smoothing values to zeros
   for (int i = 0 ; i < NUMREADINGS; i ++ ) {
     rReadings[i] = 0;
     gReadings[i] = 0;
     bReadings[i] = 0;
   }
 
-  faces.begin();
+  pyramid.begin();
 
 }
 void loop() {
@@ -128,21 +127,67 @@ void loop() {
   // faces.drawLEDS(1, r2Average, g2Average, b2Average);
   // faces.drawLEDS(2, r3Average, g3Average, b3Average);
 
+  // * * * * * DrawLEDS * * * * * * *
   // faces.writeSensorLEDS(0, rAverage, gAverage, bAverage);
-  faces.writeSensorLEDS(1, r2Average, g2Average, b2Average);
-  faces.writeSensorLEDS(2, r3Average, g3Average, b3Average);
+  // faces.writeSensorLEDS(1, r2Average, g2Average, b2Average);
+  // faces.writeSensorLEDS(2, r3Average, g3Average, b3Average);
 
+  pyramid.updatePulseHSV();
+  mapSensorsToHSV();
+
+  pyramid.show();
+
+}
+
+void mapSensorsToHSV() {
+
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+  //       1 face
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+  // The max of any sensor controls pulse brightness
   int pulse = maximumSensor(rAverage, gAverage, bAverage);
-
-  faces.updatePulseHSV(pulse);
+  // updates pulse timing sin wave
   // writeSensorLEDSHSV(face, hue, min, total)
   int hue = rAverage;
   int sat = 255;
+  // The brightness is the average of the 3 sensors
+  // So covering all 3 creates the brightest facegt
   int val = (rAverage + gAverage + bAverage) / 3;
 
-  faces.writeSensorLEDSHSV(0, hue, sat, val, pulse);
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+  //       2 face
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-  faces.show();
+  // The max of any sensor controls pulse brightness
+  int pulse2 = maximumSensor(r2Average, g2Average, b2Average);
+  // updates pulse timing sin wave
+  // faces.updatePulseHSV(1, pulse2);
+  // writeSensorLEDSHSV(face, hue, min, total)
+  int hue2 = r2Average;
+  int sat2 = 255;
+  // The brightness is the average of the 3 sensors
+  // So covering all 3 creates the brightest facegt
+  int val2 = (r2Average + g2Average + b2Average) / 3;
+
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+  //       3 face
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+  // The max of any sensor controls pulse brightness
+  int pulse3 = maximumSensor(r3Average, g3Average, b3Average);
+  // updates pulse timing sin wave
+  // faces.updatePulseHSV(2, pulse3);
+  // writeSensorLEDSHSV(face, hue, min, total)
+  int hue3 = r3Average;
+  int sat3 = 255;
+  // The brightness is the average of the 3 sensors
+  // So covering all 3 creates the brightest facegt
+  int val3 = (r3Average + g3Average + b3Average) / 3;
+
+  pyramid.pulseFace(0, hue, sat, val, pulse);
+  pyramid.pulseFace(1, hue2, sat2, val2, pulse2);
+  pyramid.pulseFace(2, hue3, sat3, val3, pulse3);
 
 }
 

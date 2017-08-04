@@ -1,4 +1,3 @@
-// #include <Adafruit_NeoPixel.h>
 #include "FastLED.h"
 
 // 12 * 3 faces
@@ -10,16 +9,11 @@ class LEDFaces {
   public:
     int numFaces;
     int ledsPerFace;
-    // LED strip
+    // LED strip pixel containers
     CRGB sensorLeds[NUMPIXELS];
     CRGB outputLeds[NUMPIXELS];
     CRGB pulseColor;
 
-    //CRGB LEDS[NUM_LEDS_IN_STRIP];
-    // unsigned long dimTimer;
-    // int dimTimerInterval;
-    // unsigned long pulseTimer;
-    // int pulseTimerInterval;
     float pulseAngle;
     float pulseScale;
     int pulseValue;
@@ -31,18 +25,13 @@ class LEDFaces {
     pulseColor = CRGB(127,0,0);
     pulseAngle = 0;
     pulseValue = 0;
-    // pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-
   }
+
   void begin() {
-    // pixels.begin();
     FastLED.addLeds<NEOPIXEL, PIN>(outputLeds, NUMPIXELS);
-    // Clear any LEDS to black;
-    // resetLEDS();
-    // show();
   }
 
-  void updatePulseHSV(int sensor) {
+  void updatePulseHSV() {
     // if(millis() - pulseTimer > pulseTimerInterval) {
     //   pulseTimer = millis();
     // }
@@ -50,7 +39,8 @@ class LEDFaces {
     //   dimTimer = millis();
     // }
     // sensor = 255 - sensor;
-    pulseAngle += 0.05; // speed of pulse
+
+    pulseAngle += 0.08; // speed of pulse
 
     // scale the sensor input
     // pulseValue = abs(sin(pulseAngle)) * sensor;
@@ -64,23 +54,25 @@ class LEDFaces {
     FastLED.show();
   }
 
-  void writeSensorLEDSHSV(int face, int hueVal, int satVal, int brightVal, int pulseValue) {
+  void pulseFace(int face, int hueVal, int satVal, int brightVal, int pulseValue) {
     // Calculate position of pixels per face on the whole strip
     // ie: face 0 is 0 - 11, face 1 is 12 - 23 ...
     int start = ledsPerFace * face;
     int end = start + ledsPerFace;
 
+    // Use HSV values to set the color and pulse the face
     int hue = hueVal;
     int sat = satVal;
     int scaledPulseValue = pulseValue * pulseScale;
-    Serial.println("ScaledPulse: " +  scaledPulseValue);
+    // Serial.println("ScaledPulse: " +  scaledPulseValue);
+
+
+    // total value (brightness) is the addition of the pulse and the brightness
     int val = map(brightVal, 0, 255, 0, 127) + map(scaledPulseValue, 0, 255, 0, 64);
 
+
     for (int i = start; i < end; i++) {
-      // pixels.setPixelColor(i, pixels.Color(r, g, b));
       sensorLeds[i] = CHSV(hue, sat, val);
-      // ledsReading[i].g = g;
-      // ledsReading[i].b = b;
 
     }
   }
