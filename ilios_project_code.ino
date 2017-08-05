@@ -63,6 +63,9 @@ int G5 = 0;
 int B5 = 0;
 
 int face0Brightness = 0;
+int hue = 0; int sat = 0; int val = 0; int pulse = 0;
+int hue2 = 0; int sat2 = 0; int val2 = 0; int pulse2 = 0;
+int hue3 = 0; int sat3 = 0; int val3 = 0; int pulse3 = 0;
 
 void setup() {
   // Proximity_controller
@@ -83,14 +86,48 @@ void setup() {
 
   pyramid.begin();
 
+  // Set Hue Color Ranges
+  pyramid.setHueRanges(0,180,255);
+  pyramid.setHueRanges(1,0,255);
+  pyramid.setHueRanges(2,44,180);
+
 }
+
+
+
 void loop() {
 
-  // Smoothing idea
-  // R = smoother1[sens4];
-  // G = smoother2[sense5];
-  //read readRangeStatus
   keepReadingSensors();
+
+  mapSensorsToRGBS();
+  mapSensorsToHSV();
+
+  printSerial();
+
+  smoothRGBReading();
+  smoothRGB2Reading();
+  smoothRGB3Reading();
+
+  // * * * * * DrawLEDS * * * * * * *
+  // pyramid.fadeInFace(0, rAverage, gAverage, bAverage);
+  // pyramid.fadeInFace(1, r2Average, g2Average, b2Average);
+  // pyramid.fadeInFace(2, r3Average, g3Average, b3Average);
+
+  // * * * * * pulseFaces * * * * * * *
+  pyramid.updatePulse();
+  // pyramid.rotateHueOffset(1);
+
+  // pyramid.setFaceHue(0,hue);
+  pyramid.pulseFace(0, hue, sat, val, pulse);
+  pyramid.pulseFace(1, hue2, sat2, val2, pulse2);
+  pyramid.pulseFace(2, hue3, sat3, val3, pulse3);
+  // pyramid.fastLEDTest();
+
+  pyramid.show();
+
+}
+
+void mapSensorsToRGBS() {
   R = sens4;
   G = sens5;
   B = sens6;
@@ -132,7 +169,7 @@ void loop() {
   // faces.writeSensorLEDS(1, r2Average, g2Average, b2Average);
   // faces.writeSensorLEDS(2, r3Average, g3Average, b3Average);
 
-  pyramid.updatePulseHSV();
+  pyramid.updatePulse();
   mapSensorsToHSV();
 
   pyramid.show();
@@ -146,57 +183,52 @@ void mapSensorsToHSV() {
   // * * * * * * * * * * * * * * * * * * * * * * * * * *
 
   // The max of any sensor controls pulse brightness
-  int pulse = maximumSensor(rAverage, gAverage, bAverage);
+  pulse = maximumSensor(rAverage, gAverage, bAverage);
   // updates pulse timing sin wave
   // writeSensorLEDSHSV(face, hue, min, total)
-  int hue = rAverage;
-  int sat = 255;
+  hue = rAverage;
+  sat = gAverage;
   // The brightness is the average of the 3 sensors
   // So covering all 3 creates the brightest facegt
-  int val = (rAverage + gAverage + bAverage) / 3;
+  val = (rAverage + gAverage + bAverage) / 3;
 
   // * * * * * * * * * * * * * * * * * * * * * * * * * *
   //       2 face
   // * * * * * * * * * * * * * * * * * * * * * * * * * *
 
   // The max of any sensor controls pulse brightness
-  int pulse2 = maximumSensor(r2Average, g2Average, b2Average);
+  pulse2 = maximumSensor(r2Average, g2Average, b2Average);
   // updates pulse timing sin wave
   // faces.updatePulseHSV(1, pulse2);
   // writeSensorLEDSHSV(face, hue, min, total)
-  int hue2 = r2Average;
-  int sat2 = 255;
+  hue2 = r2Average;
+  sat2 = 255;
   // The brightness is the average of the 3 sensors
   // So covering all 3 creates the brightest facegt
-  int val2 = (r2Average + g2Average + b2Average) / 3;
+  val2 = (r2Average + g2Average + b2Average) / 3;
 
   // * * * * * * * * * * * * * * * * * * * * * * * * * *
   //       3 face
   // * * * * * * * * * * * * * * * * * * * * * * * * * *
 
   // The max of any sensor controls pulse brightness
-  int pulse3 = maximumSensor(r3Average, g3Average, b3Average);
+  pulse3 = maximumSensor(r3Average, g3Average, b3Average);
   // updates pulse timing sin wave
-  // faces.updatePulseHSV(2, pulse3);
-  // writeSensorLEDSHSV(face, hue, min, total)
-  int hue3 = r3Average;
-  int sat3 = 255;
+  hue3 = r3Average;
+  sat3 = 255;
   // The brightness is the average of the 3 sensors
   // So covering all 3 creates the brightest facegt
-  int val3 = (r3Average + g3Average + b3Average) / 3;
+  val3 = (r3Average + g3Average + b3Average) / 3;
 
-  pyramid.pulseFace(0, hue, sat, val, pulse);
-  pyramid.pulseFace(1, hue2, sat2, val2, pulse2);
-  pyramid.pulseFace(2, hue3, sat3, val3, pulse3);
 
 }
 
 void printSerial() {
   if (millis() - timer2 > timeInterval2) {
     timer2 = millis();
-    // Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+    Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
     // Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
-    Serial.println(face0Brightness);
+    // Serial.println(face0Brightness);
   }
 } // end Serial
 void readSerial() {
@@ -292,18 +324,6 @@ void keepReadingSensors() {
   }
 
 }
-
-// void drawLEDS(int set, int r, int g, int b) {
-//   int pixelSetLength = 12;
-//   int start = pixelSetLength * set;
-//   int end = start + pixelSetLength;
-//
-//   for (int i = start; i < end; i++) {
-//     pixels.setPixelColor(i, pixels.Color(r, g, b));
-//
-//   }
-//   pixels.show();
-// }
 
 // RGB smoothing functions quick test
 // Needs to be optimized
