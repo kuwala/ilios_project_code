@@ -19,7 +19,6 @@
 #include "ilios_proximity_controller.h"
 #include "rgb_smoothing_variables.h"
 #include "LEDFaces.h"
-#include "sensorArray.h"
 
 
 
@@ -42,7 +41,7 @@ int pulseTimeInterval = 40;
 // Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 // NeoPixel faces
-LEDFaces pyramid = LEDFaces();
+LEDFaces icosahedron = LEDFaces();
 
 // Variables that store color values from sensors
 int R = 0;
@@ -87,12 +86,12 @@ void setup() {
     bReadings[i] = 0;
   }
 
-  pyramid.begin();
+  icosahedron.begin();
 
   // Set Hue Color Ranges
-  pyramid.setHueRanges(0,180,255);
-  pyramid.setHueRanges(1,0,255);
-  pyramid.setHueRanges(2,44,180);
+  icosahedron.setHueRanges(0,180,255);
+  icosahedron.setHueRanges(1,0,255);
+  icosahedron.setHueRanges(2,44,180);
 
 }
 
@@ -106,7 +105,7 @@ void loop() {
   mapSensorsToHSV();
 
   printSerial();
-  face0Brightness = pyramid.getFaceBrightness(0);
+  face0Brightness = icosahedron.getFaceBrightness(0);
 
   smoothRGBReading();
   smoothRGB2Reading();
@@ -116,21 +115,21 @@ void loop() {
   smoothRGB6Reading();
 
   // * * * * * DrawLEDS * * * * * * *
-  // pyramid.fadeInFace(0, rAverage, gAverage, bAverage);
-  // pyramid.fadeInFace(1, r2Average, g2Average, b2Average);
-  // pyramid.fadeInFace(2, r3Average, g3Average, b3Average);
+  icosahedron.fadeInFace(0, rAverage, gAverage, bAverage);
+  icosahedron.fadeInFace(1, r2Average, g2Average, b2Average);
+  icosahedron.fadeInFace(2, r3Average, g3Average, b3Average);
 
   // * * * * * pulseFaces * * * * * * *
-  pyramid.updatePulse();
-  // pyramid.rotateHueOffset(1);
+  icosahedron.updatePulse();
+  // icosahedron.rotateHueOffset(1);
 
-  // pyramid.setFaceHue(0,hue);
-  pyramid.pulseFace(0, hue, sat, val, pulse);
-  pyramid.pulseFace(1, hue2, sat2, val2, pulse2);
-  pyramid.pulseFace(2, hue3, sat3, val3, pulse3);
-  // pyramid.fastLEDTest();
+  // icosahedron.setFaceHue(0,hue);
+  // icosahedron.pulseFace(0, hue, sat, val, pulse);
+  // icosahedron.pulseFace(1, hue2, sat2, val2, pulse2);
+  // icosahedron.pulseFace(2, hue3, sat3, val3, pulse3);
+  // icosahedron.fastLEDTest();
 
-  pyramid.show();
+  icosahedron.show();
 
 }
 

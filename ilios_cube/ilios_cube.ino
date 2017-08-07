@@ -19,7 +19,6 @@
 #include "ilios_proximity_controller.h"
 #include "rgb_smoothing_variables.h"
 #include "LEDFaces.h"
-#include "sensorArray.h"
 
 
 
@@ -28,7 +27,7 @@
 //#define PIN2           4
 
 // 12 pixels per set
-#define NUMPIXELS 36
+#define NUMPIXELS 82
 
 unsigned long timer = 0;
 unsigned long timer2 = 0;
@@ -42,7 +41,7 @@ int pulseTimeInterval = 40;
 // Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 // NeoPixel faces
-LEDFaces pyramid = LEDFaces();
+LEDFaces cube = LEDFaces();
 
 // Variables that store color values from sensors
 int R = 0;
@@ -87,12 +86,12 @@ void setup() {
     bReadings[i] = 0;
   }
 
-  pyramid.begin();
+  cube.begin();
 
   // Set Hue Color Ranges
-  pyramid.setHueRanges(0,180,255);
-  pyramid.setHueRanges(1,0,255);
-  pyramid.setHueRanges(2,44,180);
+  cube.setHueRanges(0,180,255);
+  cube.setHueRanges(1,0,255);
+  cube.setHueRanges(2,44,180);
 
 }
 
@@ -100,13 +99,13 @@ void setup() {
 
 void loop() {
 
-  keepReadingSensors9();
+  keepReadingSensors18();
 
   mapSensorsToRGBS();
   mapSensorsToHSV();
 
   printSerial();
-  face0Brightness = pyramid.getFaceBrightness(0);
+  face0Brightness = cube.getFaceBrightness(0);
 
   smoothRGBReading();
   smoothRGB2Reading();
@@ -116,34 +115,46 @@ void loop() {
   smoothRGB6Reading();
 
   // * * * * * DrawLEDS * * * * * * *
-  // pyramid.fadeInFace(0, rAverage, gAverage, bAverage);
-  // pyramid.fadeInFace(1, r2Average, g2Average, b2Average);
-  // pyramid.fadeInFace(2, r3Average, g3Average, b3Average);
+  cube.fadeInFace(0, rAverage, gAverage, bAverage);
+  cube.fadeInFace(1, r2Average, g2Average, b2Average);
+  cube.fadeInFace(2, r3Average, g3Average, b3Average);
+  cube.fadeInFace(3, r4Average, g4Average, b4Average);
+  cube.fadeInFace(4, r5Average, g5Average, b5Average);
+  cube.fadeInFace(5, r6Average, g6Average, b6Average);
 
   // * * * * * pulseFaces * * * * * * *
-  pyramid.updatePulse();
-  // pyramid.rotateHueOffset(1);
+  cube.updatePulse();
+  // cube.rotateHueOffset(1);
 
-  // pyramid.setFaceHue(0,hue);
-  pyramid.pulseFace(0, hue, sat, val, pulse);
-  pyramid.pulseFace(1, hue2, sat2, val2, pulse2);
-  pyramid.pulseFace(2, hue3, sat3, val3, pulse3);
-  // pyramid.fastLEDTest();
+  // cube.setFaceHue(0,hue);
+  // cube.pulseFace(0, hue, sat, val, pulse);
+  // cube.pulseFace(1, hue2, sat2, val2, pulse2);
+  // cube.pulseFace(2, hue3, sat3, val3, pulse3);
+  // cube.fastLEDTest();
 
-  pyramid.show();
+  cube.show();
 
 }
-
 void mapSensorsToRGBS() {
-  R = sens4;
-  G = sens5;
-  B = sens6;
-  R2 = sens7;
-  G2 = sens8;
-  B2 = sens9;
-  R3 = sens10;
-  G3 = sens11;
-  B3 = sens12;
+  R = sens1;
+  G = sens2;
+  B = sens3;
+  R2 = sens4;
+  G2 = sens5;
+  B2 = sens6;
+  R3 = sens7;
+  G3 = sens8;
+  B3 = sens9;
+
+  R4 = sens10;
+  G4 = sens11;
+  B4 = sens12;
+  R5 = sens13;
+  G5 = sens14;
+  B5 = sens15;
+  R6 = sens16;
+  G6 = sens17;
+  B6 = sens18;
 
   R = 255 - R;
   G = 255 - G;
@@ -154,6 +165,16 @@ void mapSensorsToRGBS() {
   R3 = 255 - R3;
   G3 = 255 - G3;
   B3 = 255 - B3;
+  R4 = 255 - R4;
+  G4 = 255 - G4;
+  B4 = 255 - B4;
+  R5 = 255 - R5;
+  G5 = 255 - G5;
+  B5 = 255 - B5;
+  R6 = 255 - R6;
+  G6 = 255 - G6;
+  B6 = 255 - B6;
+
 }
 
 void mapSensorsToHSV() {
@@ -167,7 +188,7 @@ void mapSensorsToHSV() {
   // updates pulse timing sin wave
   // writeSensorLEDSHSV(face, hue, min, total)
   hue = rAverage;
-  sat = gAverage;
+  sat = 255;
   // The brightness is the average of the 3 sensors
   // So covering all 3 creates the brightest facegt
   val = (rAverage + gAverage + bAverage) / 3;
@@ -206,7 +227,8 @@ void mapSensorsToHSV() {
 void printSerial() {
   if (millis() - timer2 > timeInterval2) {
     timer2 = millis();
-    Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+    Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12 + String(" ") + sens13 + String(" ") + sens14 + String(" ") + sens15 + String(" ") + sens16 + String(" ") + sens17 + String(" ") + sens18);
+    Serial.println(r4Average + String(" ") + g4Average + String(" ") + b4Average + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12 + String(" ") + sens13 + String(" ") + sens14 + String(" ") + sens15 + String(" ") + sens16 + String(" ") + sens17 + String(" ") + sens18);
     // Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
     // Serial.println(face0Brightness);
   }
