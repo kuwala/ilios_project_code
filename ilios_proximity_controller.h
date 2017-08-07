@@ -45,6 +45,12 @@ int sens15;
 int sens16;
 int sens17;
 int sens18;
+int sens19;
+int sens20;
+int sens21;
+int sens22;
+int sens23;
+int sens24;
 
 
 int NumberOfSensors = 24;
@@ -101,6 +107,11 @@ int GPIO_24 = 39;
 #define Add_23 0x40
 #define Add_24 0x41
 
+// Sensor timer
+unsigned long sensorTimer = 0;
+int sensorTimeInterval = 0;
+int sensorTimeStep = 0;// what step are we on 0, 1, 2 ... -> 0
+
 void initSensors(void);
 byte detectDeviceID(byte);
 byte readRangeResult(byte);
@@ -110,83 +121,174 @@ void setDeviceFreshReset(byte);
 void setROASP(byte, byte);
 void startRange(byte);
 
+void readRanges9() {
+  sens1 = readRangeResult(Add_1);
+  sens2 = readRangeResult(Add_2);
+  sens3 = readRangeResult(Add_3);
+  sens4 = readRangeResult(Add_4);
+  sens5 = readRangeResult(Add_5);
+  sens6 = readRangeResult(Add_6);
 
+  sens7 = readRangeResult(Add_7);
+  sens8 = readRangeResult(Add_8);
+  // sens9 = readRangeResult(Add_9);
+  sens10 = readRangeResult(Add_22);
+  sens11 = readRangeResult(Add_23);
+  sens12 = readRangeResult(Add_24);
+  //    sens13 = readRangeResult(Add_10);
+  //    sens14 = readRangeResult(Add_11);
+  //    sens15 = readRangeResult(Add_12);
+  //    sens16 = readRangeResult(Add_19);
+  //    sens17 = readRangeResult(Add_20);
+  //    sens18 = readRangeResult(Add_21);
+}
+void readRanges18() {
+  sens1 = readRangeResult(Add_1);
+  sens2 = readRangeResult(Add_2);
+  sens3 = readRangeResult(Add_3);
+  sens4 = readRangeResult(Add_4);
+  sens5 = readRangeResult(Add_5);
+  sens6 = readRangeResult(Add_6);
 
-void sensorLoop()
-{
- // Let's try to initiate a single range
- // measurement and see if we get a result.
- byte rangeRESULT;
- byte rangeSTATUS = 0x09;
+  sens7 = readRangeResult(Add_7);
+  sens8 = readRangeResult(Add_8);
+  // sens9 = readRangeResult(Add_9);
+  sens10 = readRangeResult(Add_22);
+  sens11 = readRangeResult(Add_23);
+  sens12 = readRangeResult(Add_24);
+  //    sens13 = readRangeResult(Add_10);
+  //    sens14 = readRangeResult(Add_11);
+  //    sens15 = readRangeResult(Add_12);
+  //    sens16 = readRangeResult(Add_19);
+  //    sens17 = readRangeResult(Add_20);
+  //    sens18 = readRangeResult(Add_21);
+}
+void readRanges16() {
+  sens1 = readRangeResult(Add_1);
+  sens2 = readRangeResult(Add_2);
+  sens3 = readRangeResult(Add_3);
+  sens4 = readRangeResult(Add_4);
+  sens5 = readRangeResult(Add_5);
+  sens6 = readRangeResult(Add_6);
 
- while(1)
- {
+  sens7 = readRangeResult(Add_7);
+  sens8 = readRangeResult(Add_8);
+  // sens9 = readRangeResult(Add_9);
+  sens10 = readRangeResult(Add_22);
+  sens11 = readRangeResult(Add_23);
+  sens12 = readRangeResult(Add_24);
+  //    sens13 = readRangeResult(Add_10);
+  //    sens14 = readRangeResult(Add_11);
+  //    sens15 = readRangeResult(Add_12);
+  //    sens16 = readRangeResult(Add_19);
+  //    sens17 = readRangeResult(Add_20);
+  //    sens18 = readRangeResult(Add_21);
+}
+void startRanges9() {
+  startRange(Add_1);
+  startRange(Add_2);
+  startRange(Add_3);
+  startRange(Add_4);
+  startRange(Add_5);
+  startRange(Add_6);
 
-	 startRange(Add_1);
-	 startRange(Add_2);
-	 startRange(Add_3);
-	 startRange(Add_4);
-	 startRange(Add_5);
-	 startRange(Add_6);
+  startRange(Add_7);
+  startRange(Add_8);
+  startRange(Add_9);
+  startRange(Add_22);
+  startRange(Add_23);
+  startRange(Add_24);
+  //    startRange(Add_10);
+  //    startRange(Add_11);
+  //    startRange(Add_12);
+  //    startRange(Add_19);
+  //    startRange(Add_20);
+  //    startRange(Add_21);
+}
+void startRanges18() {
+  startRange(Add_1);
+  startRange(Add_2);
+  startRange(Add_3);
+  startRange(Add_4);
+  startRange(Add_5);
+  startRange(Add_6);
 
-	 startRange(Add_7);
-	 startRange(Add_8);
-	 startRange(Add_9);
-	 startRange(Add_22);
-	 startRange(Add_23);
-	 startRange(Add_24);
-//    startRange(Add_10);
-//    startRange(Add_11);
-//    startRange(Add_12);
-//    startRange(Add_19);
-//    startRange(Add_20);
-//    startRange(Add_21);
+  startRange(Add_7);
+  startRange(Add_8);
+  startRange(Add_9);
+  startRange(Add_22);
+  startRange(Add_23);
+  startRange(Add_24);
+  //    startRange(Add_10);
+  //    startRange(Add_11);
+  //    startRange(Add_12);
+  //    startRange(Add_19);
+  //    startRange(Add_20);
+  //    startRange(Add_21);
+}
+void startRanges16() {
+  startRange(Add_1);
+  startRange(Add_2);
+  startRange(Add_3);
+  startRange(Add_4);
+  startRange(Add_5);
+  startRange(Add_6);
 
-			 delay(20);
+  startRange(Add_7);
+  startRange(Add_8);
+  startRange(Add_9);
+  startRange(Add_22);
+  startRange(Add_23);
+  startRange(Add_24);
+  //    startRange(Add_10);
+  //    startRange(Add_11);
+  //    startRange(Add_12);
+  //    startRange(Add_19);
+  //    startRange(Add_20);
+  //    startRange(Add_21);
+}
 
-	 sens1 = readRangeResult(Add_1);
-	 sens2 = readRangeResult(Add_2);
-	 sens3 = readRangeResult(Add_3);
-	 sens4 = readRangeResult(Add_4);
-	 sens5 = readRangeResult(Add_5);
-	 sens6 = readRangeResult(Add_6);
-
-	 sens7 = readRangeResult(Add_7);
-	 sens8 = readRangeResult(Add_8);
-	 sens9 = readRangeResult(Add_9);
-	 sens10 = readRangeResult(Add_22);
-	 sens11 = readRangeResult(Add_23);
-	 sens12 = readRangeResult(Add_24);
-//    sens13 = readRangeResult(Add_10);
-//    sens14 = readRangeResult(Add_11);
-//    sens15 = readRangeResult(Add_12);
-//    sens16 = readRangeResult(Add_19);
-//    sens17 = readRangeResult(Add_20);
-//    sens18 = readRangeResult(Add_21);
-
-		 delay(20);
-//
-//  Serial.println(sens13 + String(" ") + sens14+String(" ") + sens15 + String(" ") + sens16 + String(" ") + sens17 + String(" ") + sens18);
-// + String(" ") + sens7 + String(" ") + sens8+String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12
-Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
-//+ String(" ") + sens13 + String(" ") + sens14 + String(" ") + sens15 + String(" ") + sens16 + String(" ") + sens17 + String(" ") + sens18);
-
-//Serial.println(sens7 + String(" ") + sens6);
-
-//    if (readRangeStatus(Add_0) == "0x00")
-//    {
-//      // Conversion was a success.
-//      rangeRESULT = readRangeResult(Add_0);
-//    }
-//
-//    else
-//    {
-//      rangeRESULT = 0xFF;
-//    }
-
-
- }
-
+void keepReadingSensors9() {
+  // timeInterval is 20 millis
+  // tunes for the proximity sensors
+  if (millis() - sensorTimer > sensorTimeInterval) {
+    sensorTimeStep += 1;
+    if (sensorTimeStep == 1) {
+      startRanges9();
+    } else if (sensorTimeStep >= 2) {
+      readRanges9();
+      sensorTimeStep = 0;
+    }
+    sensorTimer = millis();
+  }
+}
+void keepReadingSensors18() {
+  // timeInterval is 20 millis
+  // tunes for the proximity sensors
+  if (millis() - sensorTimer > sensorTimeInterval) {
+    sensorTimeStep += 1;
+    if (sensorTimeStep == 1) {
+      startRanges18();
+    } else if (sensorTimeStep >= 2) {
+      readRanges18();
+      sensorTimeStep = 0;
+    }
+    sensorTimer = millis();
+  }
+}
+void keepReadingSensors16() {
+  // timeInterval is 20 millis
+  // tunes for the proximity sensors
+  if (millis() - sensorTimer > sensorTimeInterval) {
+    sensorTimeStep += 1;
+    if (sensorTimeStep == 1) {
+      startRanges16();
+    } else if (sensorTimeStep >= 2) {
+      readRanges16();
+      sensorTimeStep = 0;
+    }
+    sensorTimer = millis();
+  }
 }
 
 void initPins(void)

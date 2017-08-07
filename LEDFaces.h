@@ -79,7 +79,7 @@ class LEDFaces {
     // }
     // sensor = 255 - sensor;
 
-    pulseAngle += 0.04; // speed of pulse
+    pulseAngle += 0.08; // speed of pulse
 
     // scale the sensor input
     // pulseValue = abs(sin(pulseAngle)) * sensor;
@@ -108,9 +108,9 @@ class LEDFaces {
 
     // map hueVal to the hueRanges
     int hue = map(hueVal, 0, 255, hueRanges[face][0], hueRanges[face][1]);
-    Serial.println("hue:" + String(hue));
-    Serial.println("1:" + String(hueRanges[face][0]));
-    Serial.println("2:" + String(hueRanges[face][1]));
+    // Serial.println("hue:" + String(hue));
+    // Serial.println("1:" + String(hueRanges[face][0]));
+    // Serial.println("2:" + String(hueRanges[face][1]));
 
     int sat = satVal;
     int scaledPulseValue = pulseValue * pulseScale;
