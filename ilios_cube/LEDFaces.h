@@ -80,7 +80,7 @@ class LEDFaces {
     // }
     // sensor = 255 - sensor;
 
-    pulseAngle += 0.08; // speed of pulse
+    pulseAngle += 0.16; // speed of pulse
 
     // scale the sensor input
     // pulseValue = abs(sin(pulseAngle)) * sensor;

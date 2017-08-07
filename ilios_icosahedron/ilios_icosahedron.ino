@@ -27,7 +27,7 @@
 //#define PIN2           4
 
 // 12 pixels per set
-#define NUMPIXELS 36
+#define NUMPIXELS 120
 
 unsigned long timer = 0;
 unsigned long timer2 = 0;
@@ -99,7 +99,7 @@ void setup() {
 
 void loop() {
 
-  keepReadingSensors9();
+  keepReadingSensors18();
 
   mapSensorsToRGBS();
   mapSensorsToHSV();
@@ -115,9 +115,33 @@ void loop() {
   smoothRGB6Reading();
 
   // * * * * * DrawLEDS * * * * * * *
-  icosahedron.fadeInFace(0, rAverage, gAverage, bAverage);
-  icosahedron.fadeInFace(1, r2Average, g2Average, b2Average);
-  icosahedron.fadeInFace(2, r3Average, g3Average, b3Average);
+  // icosahedron.fadeInFace(0, rAverage, gAverage, bAverage);
+  // icosahedron.fadeInFace(1, r2Average, g2Average, b2Average);
+  // icosahedron.fadeInFace(2, r3Average, g3Average, b3Average);
+
+  icosahedron.fadeInIcosaFace(0, rAverage);
+  icosahedron.fadeInIcosaFace(1, bAverage);
+  icosahedron.fadeInIcosaFace(2, gAverage);
+
+  icosahedron.fadeInIcosaFace(3, r2Average);
+  icosahedron.fadeInIcosaFace(4, g2Average);
+  icosahedron.fadeInIcosaFace(5, b2Average);
+
+  icosahedron.fadeInIcosaFace(6, r3Average);
+  icosahedron.fadeInIcosaFace(7, g3Average);
+  icosahedron.fadeInIcosaFace(8, b3Average);
+
+  icosahedron.fadeInIcosaFace(9, r4Average);
+  icosahedron.fadeInIcosaFace(10, g4Average);
+  icosahedron.fadeInIcosaFace(11, b4Average);
+
+  icosahedron.fadeInIcosaFace(12, r5Average);
+  icosahedron.fadeInIcosaFace(13, g5Average);
+  icosahedron.fadeInIcosaFace(14, b5Average);
+
+  icosahedron.fadeInIcosaFace(15, r6Average);
+  icosahedron.fadeInIcosaFace(16, g6Average);
+  icosahedron.fadeInIcosaFace(17, b6Average);
 
   // * * * * * pulseFaces * * * * * * *
   icosahedron.updatePulse();
@@ -134,15 +158,25 @@ void loop() {
 }
 
 void mapSensorsToRGBS() {
-  R = sens4;
-  G = sens5;
-  B = sens6;
-  R2 = sens7;
-  G2 = sens8;
-  B2 = sens9;
-  R3 = sens10;
-  G3 = sens11;
-  B3 = sens12;
+  R = sens1;
+  G = sens2;
+  B = sens3;
+  R2 = sens4;
+  G2 = sens5;
+  B2 = sens6;
+  R3 = sens7;
+  G3 = sens8;
+  B3 = sens9;
+
+  R4 = sens10;
+  G4 = sens11;
+  B4 = sens12;
+  R5 = sens13;
+  G5 = sens14;
+  B5 = sens15;
+  R6 = sens16;
+  G6 = sens17;
+  B6 = sens18;
 
   R = 255 - R;
   G = 255 - G;
@@ -153,6 +187,15 @@ void mapSensorsToRGBS() {
   R3 = 255 - R3;
   G3 = 255 - G3;
   B3 = 255 - B3;
+  R4 = 255 - R4;
+  G4 = 255 - G4;
+  B4 = 255 - B4;
+  R5 = 255 - R5;
+  G5 = 255 - G5;
+  B5 = 255 - B5;
+  R6 = 255 - R6;
+  G6 = 255 - G6;
+  B6 = 255 - B6;
 }
 
 void mapSensorsToHSV() {
@@ -205,8 +248,10 @@ void mapSensorsToHSV() {
 void printSerial() {
   if (millis() - timer2 > timeInterval2) {
     timer2 = millis();
-    Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
-    // Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+    // Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+    Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + r2Average + String(" ") + g2Average + String(" ") + b2Average + String(" ")
+     + r3Average + String(" ") + g3Average + String(" ") + b3Average + String(" ") + r4Average + String(" ") + g4Average + String(" ") + b4Average + String(" ")
+     + r5Average + String(" ") + g5Average + String(" ") + b5Average + String(" ") + r6Average + String(" ") + g6Average + String(" ") + b6Average + String(" "));
     // Serial.println(face0Brightness);
   }
 } // end Serial

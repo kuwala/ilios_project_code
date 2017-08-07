@@ -1,9 +1,10 @@
 #include "FastLED.h"
 
 // 12 * 3 faces
-#define NUMPIXELS 80
+#define NUMPIXELS 216
 #define PIN A15
-#define NUMFACES 3
+#define NUMFACES 18
+#define LEDS_PER_FACE 12
 #define HUE_POINTS_PER_FACE 2
 
 class LEDFaces {
@@ -27,8 +28,8 @@ class LEDFaces {
     int hueOffsetTimerInterval;
 
   LEDFaces() {
-    numFaces = 3;
-    ledsPerFace = 12;
+    numFaces = NUMFACES;
+    ledsPerFace = LEDS_PER_FACE;
     pulseColor = CRGB(127,0,0);
     pulseAngle = 0;
     pulseValue = 0;
@@ -124,6 +125,17 @@ class LEDFaces {
     for (int i = start; i < end; i++) {
       sensorLeds[i] = CHSV(hue, sat, val);
 
+    }
+  }
+  void fadeInIcosaFace(int face, int h) {
+    // Calculate position of pixels per face on the whole strip
+    // ie: face 0 is 0 - 11, face 1 is 12 - 23, ...
+    int start = ledsPerFace * face;
+    int end = start + ledsPerFace;
+
+    // use rgb values to fade in the face
+    for (int i = start; i < end; i++) {
+      sensorLeds[i] = CHSV(h,255,h);
     }
   }
   void fadeInFace(int face, int r, int g, int b) {

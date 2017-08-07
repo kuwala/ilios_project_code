@@ -152,16 +152,16 @@ void readRanges18() {
 
   sens7 = readRangeResult(Add_7);
   sens8 = readRangeResult(Add_8);
-  // sens9 = readRangeResult(Add_9);
+  sens9 = readRangeResult(Add_9);
   sens10 = readRangeResult(Add_22);
   sens11 = readRangeResult(Add_23);
   sens12 = readRangeResult(Add_24);
-  //    sens13 = readRangeResult(Add_10);
-  //    sens14 = readRangeResult(Add_11);
-  //    sens15 = readRangeResult(Add_12);
-  //    sens16 = readRangeResult(Add_19);
-  //    sens17 = readRangeResult(Add_20);
-  //    sens18 = readRangeResult(Add_21);
+     sens13 = readRangeResult(Add_10);
+     sens14 = readRangeResult(Add_11);
+     sens15 = readRangeResult(Add_12);
+     sens16 = readRangeResult(Add_19);
+     sens17 = readRangeResult(Add_20);
+     sens18 = readRangeResult(Add_21);
 }
 void readRanges16() {
   sens1 = readRangeResult(Add_1);
@@ -219,12 +219,12 @@ void startRanges18() {
   startRange(Add_22);
   startRange(Add_23);
   startRange(Add_24);
-  //    startRange(Add_10);
-  //    startRange(Add_11);
-  //    startRange(Add_12);
-  //    startRange(Add_19);
-  //    startRange(Add_20);
-  //    startRange(Add_21);
+     startRange(Add_10);
+     startRange(Add_11);
+     startRange(Add_12);
+     startRange(Add_19);
+     startRange(Add_20);
+     startRange(Add_21);
 }
 void startRanges16() {
   startRange(Add_1);
@@ -262,6 +262,27 @@ void keepReadingSensors9() {
     sensorTimer = millis();
   }
 }
+void sensorDummyData18() {
+	sens1 = random(0,40);
+	sens2 = random(40,80);
+	sens3 = random(120,160);
+	sens4 = random(200,240);
+	sens5 = random(10, 50);
+	sens6 = random(90,130);
+	sens7 = random(0,40);
+	sens8 = random(40,100);
+	sens9 = random(100,255);
+	sens10 = random(100);
+	sens11 = random(30);
+	sens12 = random(100);
+	sens13 = random(30);
+	sens14 = random(100);
+	sens15 = random(30);
+	sens16 = random(100);
+	sens17 = random(30);
+	sens18 = random(100);
+
+}
 void keepReadingSensors18() {
   // timeInterval is 20 millis
   // tunes for the proximity sensors
@@ -269,8 +290,10 @@ void keepReadingSensors18() {
     sensorTimeStep += 1;
     if (sensorTimeStep == 1) {
       startRanges18();
+
     } else if (sensorTimeStep >= 2) {
       readRanges18();
+			// sensorDummyData18();
       sensorTimeStep = 0;
     }
     sensorTimer = millis();
@@ -429,41 +452,41 @@ digitalWrite(GPIO_24, HIGH);
 //// 13-18
 //
 
+
+
+     digitalWrite(GPIO_10, HIGH);
+ delayMicroseconds(1500);
+ sensor13.init();
+ sensor13.setAddress(Add_10);
+
+
+     digitalWrite(GPIO_11, HIGH);
+ delayMicroseconds(1500);
+ sensor14.init();
+ sensor14.setAddress(Add_11);
 //
 //
-//      digitalWrite(GPIO_10, HIGH);
-//  delayMicroseconds(1500);
-//  sensor13.init();
-//  sensor13.setAddress(Add_10);
-//
-//
-//      digitalWrite(GPIO_11, HIGH);
-//  delayMicroseconds(1500);
-//  sensor14.init();
-//  sensor14.setAddress(Add_11);
+     digitalWrite(GPIO_12, HIGH);
+ delayMicroseconds(1500);
+ sensor15.init();
+ sensor15.setAddress(Add_12);
 ////
 ////
-//      digitalWrite(GPIO_12, HIGH);
-//  delayMicroseconds(1500);
-//  sensor15.init();
-//  sensor15.setAddress(Add_12);
-//////
-//////
-//      digitalWrite(GPIO_19, HIGH);
-//  delayMicroseconds(1500);
-//  sensor16.init();
-//  sensor16.setAddress(Add_19);
-//
-//
-//      digitalWrite(GPIO_20, HIGH);
-//  delayMicroseconds(1500);
-//  sensor17.init();
-//  sensor17.setAddress(Add_20);
-//
-//    digitalWrite(GPIO_21, HIGH);
-//  delayMicroseconds(1500);
-//  sensor18.init();
-//  sensor18.setAddress(Add_21);
+     digitalWrite(GPIO_19, HIGH);
+ delayMicroseconds(1500);
+ sensor16.init();
+ sensor16.setAddress(Add_19);
+
+
+     digitalWrite(GPIO_20, HIGH);
+ delayMicroseconds(1500);
+ sensor17.init();
+ sensor17.setAddress(Add_20);
+
+   digitalWrite(GPIO_21, HIGH);
+ delayMicroseconds(1500);
+ sensor18.init();
+ sensor18.setAddress(Add_21);
 
 }
 

@@ -68,6 +68,9 @@ int face0Brightness = 0;
 int hue = 0; int sat = 0; int val = 0; int pulse = 0;
 int hue2 = 0; int sat2 = 0; int val2 = 0; int pulse2 = 0;
 int hue3 = 0; int sat3 = 0; int val3 = 0; int pulse3 = 0;
+int hue4 = 0; int sat4 = 0; int val4 = 0; int pulse4 = 0;
+int hue5 = 0; int sat5 = 0; int val5 = 0; int pulse5 = 0;
+int hue6 = 0; int sat6 = 0; int val6 = 0; int pulse6 = 0;
 
 void setup() {
   // Proximity_controller
@@ -114,23 +117,25 @@ void loop() {
   smoothRGB5Reading();
   smoothRGB6Reading();
 
-  // * * * * * DrawLEDS * * * * * * *
-  cube.fadeInFace(0, rAverage, gAverage, bAverage);
-  cube.fadeInFace(1, r2Average, g2Average, b2Average);
-  cube.fadeInFace(2, r3Average, g3Average, b3Average);
-  cube.fadeInFace(3, r4Average, g4Average, b4Average);
-  cube.fadeInFace(4, r5Average, g5Average, b5Average);
-  cube.fadeInFace(5, r6Average, g6Average, b6Average);
+  // * * * * * FadeInFace * * * * * * *
+  // cube.fadeInFace(0, rAverage, gAverage, bAverage);
+  // cube.fadeInFace(1, r2Average, g2Average, b2Average);
+  // cube.fadeInFace(2, r3Average, g3Average, b3Average);
+  // cube.fadeInFace(3, r4Average, g4Average, b4Average);
+  // cube.fadeInFace(4, r5Average, g5Average, b5Average);
+  // cube.fadeInFace(5, r6Average, g6Average, b6Average);
 
   // * * * * * pulseFaces * * * * * * *
   cube.updatePulse();
   // cube.rotateHueOffset(1);
 
   // cube.setFaceHue(0,hue);
-  // cube.pulseFace(0, hue, sat, val, pulse);
-  // cube.pulseFace(1, hue2, sat2, val2, pulse2);
-  // cube.pulseFace(2, hue3, sat3, val3, pulse3);
-  // cube.fastLEDTest();
+  cube.pulseFace(0, hue, sat, val, pulse);
+  cube.pulseFace(1, hue2, sat2, val2, pulse2);
+  cube.pulseFace(2, hue3, sat3, val3, pulse3);
+  cube.pulseFace(3, hue4, sat4, val4, pulse4);
+  cube.pulseFace(4, hue5, sat5, val5, pulse5);
+  cube.pulseFace(5, hue6, sat6, val6, pulse6);
 
   cube.show();
 
@@ -221,16 +226,51 @@ void mapSensorsToHSV() {
   // So covering all 3 creates the brightest facegt
   val3 = (r3Average + g3Average + b3Average) / 3;
 
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+  //       4 face
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+  // The max of any sensor controls pulse brightness
+  pulse4 = maximumSensor(r4Average, g4Average, b4Average);
+  // updates pulse timing sin wave
+  hue4 = r4Average;
+  sat4 = 255;
+  // The brightness is the average of the 3 sensors
+  // So covering all 3 creates the brightest facegt
+  val4 = (r4Average + g4Average + b4Average) / 3;
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+  //       5 face
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+  // The max of any sensor controls pulse brightness
+  pulse5 = maximumSensor(r5Average, g5Average, b5Average);
+  // updates pulse timing sin wave
+  hue5 = r5Average;
+  sat5 = 255;
+  // The brightness is the average of the 3 sensors
+  // So covering all 3 creates the brightest facegt
+  val5 = (r5Average + g5Average + b5Average) / 3;
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+  //       6 face
+  // * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+  // The max of any sensor controls pulse brightness
+  pulse6 = maximumSensor(r6Average, g6Average, b6Average);
+  // updates pulse timing sin wave
+  hue6 = r6Average;
+  sat6 = 255;
+  // The brightness is the average of the 3 sensors
+  // So covering all 3 creates the brightest facegt
+  val6 = (r6Average + g6Average + b6Average) / 3;
 
 }
 
 void printSerial() {
   if (millis() - timer2 > timeInterval2) {
     timer2 = millis();
-    Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12 + String(" ") + sens13 + String(" ") + sens14 + String(" ") + sens15 + String(" ") + sens16 + String(" ") + sens17 + String(" ") + sens18);
-    Serial.println(r4Average + String(" ") + g4Average + String(" ") + b4Average + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12 + String(" ") + sens13 + String(" ") + sens14 + String(" ") + sens15 + String(" ") + sens16 + String(" ") + sens17 + String(" ") + sens18);
+    // Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12 + String(" ") + sens13 + String(" ") + sens14 + String(" ") + sens15 + String(" ") + sens16 + String(" ") + sens17 + String(" ") + sens18);
     // Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
-    // Serial.println(face0Brightness);
+    Serial.println(face0Brightness);
   }
 } // end Serial
 void readSerial() {
