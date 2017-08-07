@@ -48,8 +48,6 @@ LEDFaces pyramid = LEDFaces();
 int R = 0;
 int G = 0;
 int B = 0;
-// int S = 0;
-// int q = 0;
 int R2 = 0;
 int G2 = 0;
 int B2 = 0;
@@ -62,6 +60,9 @@ int B4 = 0;
 int R5 = 0;
 int G5 = 0;
 int B5 = 0;
+int R6 = 0;
+int G6 = 0;
+int B6 = 0;
 
 
 int face0Brightness = 0;
@@ -332,4 +333,94 @@ void smoothRGB3Reading() {
     b3ReadIndex = 0;
   }
   b3Average = b3Total / NUMREADINGS;
+}
+void smoothRGB4Reading() {
+  // raw values
+
+  g4Total = g4Total - g4Readings[g4ReadIndex];
+  g4Readings[g4ReadIndex] = G4;
+  g4Total = g4Total + g4Readings[g4ReadIndex];
+  g4ReadIndex ++;
+  if (g4ReadIndex >= NUMREADINGS) {
+    g4ReadIndex = 0;
+  }
+  g4Average = g4Total / NUMREADINGS;
+
+  r4Total = r4Total - r4Readings[r4ReadIndex];
+  r4Readings[r4ReadIndex] = R4;
+  r4Total = r4Total + r4Readings[r4ReadIndex];
+  r4ReadIndex ++;
+  if (r4ReadIndex >= NUMREADINGS) {
+    r4ReadIndex = 0;
+  }
+  r4Average = r4Total / NUMREADINGS;
+
+  b4Total = b4Total - b4Readings[b4ReadIndex];
+  b4Readings[b4ReadIndex] = B4;
+  b4Total = b4Total + b4Readings[b4ReadIndex];
+  b4ReadIndex ++;
+  if (b4ReadIndex >= NUMREADINGS) {
+    b4ReadIndex = 0;
+  }
+  b4Average = b4Total / NUMREADINGS;
+}
+void smoothRGB5Reading() {
+  // raw values
+
+  g5Total = g5Total - g5Readings[g5ReadIndex];
+  g5Readings[g5ReadIndex] = G5;
+  g5Total = g5Total + g5Readings[g5ReadIndex];
+  g5ReadIndex ++;
+  if (g5ReadIndex >= NUMREADINGS) {
+    g5ReadIndex = 0;
+  }
+  g5Average = g5Total / NUMREADINGS;
+
+  r5Total = r5Total - r5Readings[r5ReadIndex];
+  r5Readings[r5ReadIndex] = R5;
+  r5Total = r5Total + r5Readings[r5ReadIndex];
+  r5ReadIndex ++;
+  if (r5ReadIndex >= NUMREADINGS) {
+    r5ReadIndex = 0;
+  }
+  r5Average = r5Total / NUMREADINGS;
+
+  b5Total = b5Total - b5Readings[b5ReadIndex];
+  b5Readings[b5ReadIndex] = B5;
+  b5Total = b5Total + b5Readings[b5ReadIndex];
+  b5ReadIndex ++;
+  if (b5ReadIndex >= NUMREADINGS) {
+    b5ReadIndex = 0;
+  }
+  b5Average = b5Total / NUMREADINGS;
+}
+void smoothRGB6Reading() {
+  // raw values
+
+  g6Total = g6Total - g6Readings[g6ReadIndex];
+  g6Readings[g6ReadIndex] = G6;
+  g6Total = g6Total + g6Readings[g6ReadIndex];
+  g6ReadIndex ++;
+  if (g6ReadIndex >= NUMREADINGS) {
+    g6ReadIndex = 0;
+  }
+  g6Average = g6Total / NUMREADINGS;
+
+  r6Total = r6Total - r6Readings[r6ReadIndex];
+  r6Readings[r6ReadIndex] = R6;
+  r6Total = r6Total + r6Readings[r6ReadIndex];
+  r6ReadIndex ++;
+  if (r6ReadIndex >= NUMREADINGS) {
+    r6ReadIndex = 0;
+  }
+  r6Average = r6Total / NUMREADINGS;
+
+  b6Total = b6Total - b6Readings[b6ReadIndex];
+  b6Readings[b6ReadIndex] = B6;
+  b6Total = b6Total + b6Readings[b6ReadIndex];
+  b6ReadIndex ++;
+  if (b6ReadIndex >= NUMREADINGS) {
+    b6ReadIndex = 0;
+  }
+  b6Average = b6Total / NUMREADINGS;
 }

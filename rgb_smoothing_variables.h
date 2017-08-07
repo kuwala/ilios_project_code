@@ -86,3 +86,54 @@ int r3Readings[NUMREADINGS];
 int r3Total = 0;
 int r3ReadIndex = 0;
 int r3Average = 0;
+
+// Face 4
+
+int g4Readings[NUMREADINGS];
+int g4Total = 0;
+int g4ReadIndex = 0;
+int g4Average = 0;
+
+int b4Readings[NUMREADINGS];
+int b4Total = 0;
+int b4ReadIndex = 0;
+int b4Average = 0;
+
+int r4Readings[NUMREADINGS];
+int r4Total = 0;
+int r4ReadIndex = 0;
+int r4Average = 0;
+
+// Face 5
+
+int g5Readings[NUMREADINGS];
+int g5Total = 0;
+int g5ReadIndex = 0;
+int g5Average = 0;
+
+int b5Readings[NUMREADINGS];
+int b5Total = 0;
+int b5ReadIndex = 0;
+int b5Average = 0;
+
+int r5Readings[NUMREADINGS];
+int r5Total = 0;
+int r5ReadIndex = 0;
+int r5Average = 0;
+
+// Face 6
+
+int g6Readings[NUMREADINGS];
+int g6Total = 0;
+int g6ReadIndex = 0;
+int g6Average = 0;
+
+int b6Readings[NUMREADINGS];
+int b6Total = 0;
+int b6ReadIndex = 0;
+int b6Average = 0;
+
+int r6Readings[NUMREADINGS];
+int r6Total = 0;
+int r6ReadIndex = 0;
+int r6Average = 0;
