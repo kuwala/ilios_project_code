@@ -109,7 +109,7 @@ int GPIO_24 = 39;
 
 // Sensor timer
 unsigned long sensorTimer = 0;
-int sensorTimeInterval = 0;
+int sensorTimeInterval = 20;
 int sensorTimeStep = 0;// what step are we on 0, 1, 2 ... -> 0
 
 void initSensors(void);
