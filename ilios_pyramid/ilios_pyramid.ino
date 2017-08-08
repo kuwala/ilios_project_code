@@ -169,6 +169,7 @@ void mapSensorsToHSV() {
 
   // The max of any sensor controls pulse brightness
   pulse = maximumSensor(rAverage, gAverage, bAverage);
+
   // updates pulse timing sin wave
   // writeSensorLEDSHSV(face, hue, min, total)
   hue = rAverage;
@@ -310,6 +311,15 @@ void smoothRGB2Reading() {
     b2ReadIndex = 0;
   }
   b2Average = b2Total / NUMREADINGS;
+
+  // b2Total = b2Total - b2Readings[b2ReadIndex];
+  // b2Readings[b2ReadIndex] = B2;
+  // b2Total = b2Total + b2Readings[b2ReadIndex];
+  // b2ReadIndex ++;
+  // if (b2ReadIndex >= NUMREADINGS) {
+  //   b2ReadIndex = 0;
+  // }
+  // b2Average = b2Total / NUMREADINGS;
 }
 
 void smoothRGB3Reading() {

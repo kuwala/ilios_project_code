@@ -131,7 +131,7 @@ void readRanges9() {
 
   sens7 = readRangeResult(Add_7);
   sens8 = readRangeResult(Add_8);
-  // sens9 = readRangeResult(Add_9);
+  sens9 = readRangeResult(Add_9);
   sens10 = readRangeResult(Add_22);
   sens11 = readRangeResult(Add_23);
   sens12 = readRangeResult(Add_24);
