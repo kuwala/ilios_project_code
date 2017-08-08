@@ -20,7 +20,7 @@ class LEDFaces {
     float pulseScale;
     int pulseValue;
     int saturationValue;
-    int face0Brightness;
+    int faceBrightnesses[NUMFACES];
     int hueOffset[3];
     int hueRanges[NUMFACES][HUE_POINTS_PER_FACE];
 
@@ -37,9 +37,11 @@ class LEDFaces {
     hueOffsetTimer = 0;
     hueOffsetTimerInterval = 50;
 
+    // init face brightness
     // init hue rotation Array
     for (size_t i = 0; i < NUMFACES; i++) {
       hueOffset[i] = 0;
+      faceBrightnesses[i] = 0;
     }
     // int hueRanges Array
     for (size_t i = 0; i < NUMFACES; i++) {
@@ -91,7 +93,7 @@ class LEDFaces {
     return pulseScale;
   }
   float getFaceBrightness(int face) {
-    return face0Brightness;
+    return faceBrightnesses[face];
   }
 
   void setFaceHue(int face, int hueVal) {
@@ -120,7 +122,7 @@ class LEDFaces {
 
     // total value (brightness) is the addition of the pulse and the brightness
     int val = map(brightVal, 0, 255, 0, 127) + map(scaledPulseValue, 0, 255, 0, 127);
-    face0Brightness = val;
+    faceBrightnesses[face] = val;
 
     for (int i = start; i < end; i++) {
       sensorLeds[i] = CHSV(hue, sat, val);

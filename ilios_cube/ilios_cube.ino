@@ -65,6 +65,12 @@ int B6 = 0;
 
 
 int face0Brightness = 0;
+int face1Brightness = 0;
+int face2Brightness = 0;
+int face3Brightness = 0;
+int face4Brightness = 0;
+int face5Brightness = 0;
+
 int hue = 0; int sat = 0; int val = 0; int pulse = 0;
 int hue2 = 0; int sat2 = 0; int val2 = 0; int pulse2 = 0;
 int hue3 = 0; int sat3 = 0; int val3 = 0; int pulse3 = 0;
@@ -107,8 +113,13 @@ void loop() {
   mapSensorsToRGBS();
   mapSensorsToHSV();
 
-  printSerial();
   face0Brightness = cube.getFaceBrightness(0);
+  face1Brightness = cube.getFaceBrightness(1);
+  face2Brightness = cube.getFaceBrightness(2);
+  face3Brightness = cube.getFaceBrightness(3);
+  face4Brightness = cube.getFaceBrightness(4);
+  face5Brightness = cube.getFaceBrightness(5);
+  printSerial();
 
   smoothRGBReading();
   smoothRGB2Reading();

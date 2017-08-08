@@ -66,6 +66,9 @@ int B6 = 0;
 
 
 int face0Brightness = 0;
+int face1Brightness = 0;
+int face2Brightness = 0;
+
 int hue = 0; int sat = 0; int val = 0; int pulse = 0;
 int hue2 = 0; int sat2 = 0; int val2 = 0; int pulse2 = 0;
 int hue3 = 0; int sat3 = 0; int val3 = 0; int pulse3 = 0;
@@ -107,6 +110,8 @@ void loop() {
 
   printSerial();
   face0Brightness = pyramid.getFaceBrightness(0);
+  face1Brightness = pyramid.getFaceBrightness(1);
+  face2Brightness = pyramid.getFaceBrightness(2);
 
   smoothRGBReading();
   smoothRGB2Reading();
@@ -206,9 +211,9 @@ void mapSensorsToHSV() {
 void printSerial() {
   if (millis() - timer2 > timeInterval2) {
     timer2 = millis();
-    Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+    // Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
     // Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
-    // Serial.println(face0Brightness);
+    Serial.println(face0Brightness + String(" ") + face1Brightness + String(" ") + face2Brightness);
   }
 } // end Serial
 void readSerial() {

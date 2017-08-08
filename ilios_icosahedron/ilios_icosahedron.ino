@@ -65,6 +65,8 @@ int B6 = 0;
 
 
 int face0Brightness = 0;
+int face1Brightness = 0;
+int face2Brightness = 0;
 int hue = 0; int sat = 0; int val = 0; int pulse = 0;
 int hue2 = 0; int sat2 = 0; int val2 = 0; int pulse2 = 0;
 int hue3 = 0; int sat3 = 0; int val3 = 0; int pulse3 = 0;
@@ -106,6 +108,8 @@ void loop() {
 
   printSerial();
   face0Brightness = icosahedron.getFaceBrightness(0);
+  face1Brightness = icosahedron.getFaceBrightness(1);
+  face2Brightness = icosahedron.getFaceBrightness(2);
 
   smoothRGBReading();
   smoothRGB2Reading();
