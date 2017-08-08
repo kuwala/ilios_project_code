@@ -47,8 +47,6 @@ class LEDFaces {
         hueRanges[i][j] = 127;
       }
     }
-    // hueRanges[0][0] = 0;
-    // hueRanges[0][1] = 200;
   }
 
   void begin() {
@@ -127,15 +125,17 @@ class LEDFaces {
 
     }
   }
-  void fadeInIcosaFace(int face, int h) {
+  void fadeInIcosaFace(int face, int hueVal) {
     // Calculate position of pixels per face on the whole strip
     // ie: face 0 is 0 - 11, face 1 is 12 - 23, ...
     int start = ledsPerFace * face;
     int end = start + ledsPerFace;
 
+    int hue = map(hueVal, 0, 255, hueRanges[face][0], hueRanges[face][1]);
+
     // use rgb values to fade in the face
     for (int i = start; i < end; i++) {
-      sensorLeds[i] = CHSV(h,255,h);
+      sensorLeds[i] = CHSV(hue,255,hue);
     }
   }
   void fadeInFace(int face, int r, int g, int b) {

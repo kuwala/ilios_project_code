@@ -101,7 +101,9 @@ void setup() {
   cube.setHueRanges(0,180,255);
   cube.setHueRanges(1,0,255);
   cube.setHueRanges(2,44,180);
-
+  cube.setHueRanges(3,180,255);
+  cube.setHueRanges(4,0,255);
+  cube.setHueRanges(5,44,180);
 }
 
 

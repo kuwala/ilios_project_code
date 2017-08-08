@@ -90,10 +90,23 @@ void setup() {
 
   icosahedron.begin();
 
-  // Set Hue Color Ranges
+  // Set Hue Color Ranges for the faces
   icosahedron.setHueRanges(0,180,255);
   icosahedron.setHueRanges(1,0,255);
   icosahedron.setHueRanges(2,44,180);
+  icosahedron.setHueRanges(3,44,180);
+  icosahedron.setHueRanges(4,44,180);
+  icosahedron.setHueRanges(5,44,180);
+  icosahedron.setHueRanges(6,44,180);
+  icosahedron.setHueRanges(7,44,180);
+  icosahedron.setHueRanges(8,44,180);
+  icosahedron.setHueRanges(9,44,180);
+  icosahedron.setHueRanges(10,44,180);
+  icosahedron.setHueRanges(11,44,180);
+  icosahedron.setHueRanges(12,44,180);
+  icosahedron.setHueRanges(13,44,180);
+  icosahedron.setHueRanges(14,44,180);
+  icosahedron.setHueRanges(15,44,180);
 
 }
 
@@ -122,6 +135,11 @@ void loop() {
   // icosahedron.fadeInFace(0, rAverage, gAverage, bAverage);
   // icosahedron.fadeInFace(1, r2Average, g2Average, b2Average);
   // icosahedron.fadeInFace(2, r3Average, g3Average, b3Average);
+
+  // icosahedron is using the r g b sensor values independently
+  // so each face gets 1 r or 1 g or one b average value that it
+  // then scales its hue and brightness with
+
 
   icosahedron.fadeInIcosaFace(0, rAverage);
   icosahedron.fadeInIcosaFace(2, bAverage); // Face 2 has sensor 3
