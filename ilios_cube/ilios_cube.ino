@@ -281,7 +281,7 @@ void printSerial() {
     timer2 = millis();
     // Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12 + String(" ") + sens13 + String(" ") + sens14 + String(" ") + sens15 + String(" ") + sens16 + String(" ") + sens17 + String(" ") + sens18);
     // Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
-    Serial.println(face0Brightness);
+    Serial.println(face0Brightness + String(" ") + face1Brightness + String(" ") + face2Brightness + String(" ") + face3Brightness + String(" ") + face4Brightness + String(" ") + face5Brightness);
   }
 } // end Serial
 void readSerial() {

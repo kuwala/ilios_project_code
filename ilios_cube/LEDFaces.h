@@ -33,7 +33,6 @@ class LEDFaces {
     pulseColor = CRGB(127,0,0);
     pulseAngle = 0;
     pulseValue = 0;
-    face0Brightness = 0;
     hueOffsetTimer = 0;
     hueOffsetTimerInterval = 50;
 
