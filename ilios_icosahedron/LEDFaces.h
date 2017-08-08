@@ -135,7 +135,7 @@ class LEDFaces {
 
     // use rgb values to fade in the face
     for (int i = start; i < end; i++) {
-      sensorLeds[i] = CHSV(hue,255,hue);
+      sensorLeds[i] = CHSV(hueVal,255,hueVal);
     }
   }
   void fadeInFace(int face, int r, int g, int b) {
@@ -164,8 +164,8 @@ class LEDFaces {
   }
   void resetLEDSOUT() {
     for (size_t i = 0; i < NUMPIXELS; i++) {
-      outputLeds[i] = CRGB(5,5,5);
-      // outputLeds[i] = CRGB(20,20,20);
+      outputLeds[i] = CRGB(1,1,1);
+      // outputLeds[i] = CRGB(0,0,0);
     }
   }
 void fastLEDTest() {
