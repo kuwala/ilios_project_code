@@ -164,7 +164,8 @@ class LEDFaces {
   }
   void resetLEDSOUT() {
     for (size_t i = 0; i < NUMPIXELS; i++) {
-      outputLeds[i] = CRGB::Black;
+      outputLeds[i] = CRGB(5,5,5);
+      // outputLeds[i] = CRGB(20,20,20);
     }
   }
 void fastLEDTest() {
