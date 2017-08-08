@@ -120,8 +120,8 @@ void loop() {
   // icosahedron.fadeInFace(2, r3Average, g3Average, b3Average);
 
   icosahedron.fadeInIcosaFace(0, rAverage);
-  icosahedron.fadeInIcosaFace(1, bAverage);
-  icosahedron.fadeInIcosaFace(2, gAverage);
+  icosahedron.fadeInIcosaFace(2, bAverage); // Face 2 has sensor 3
+  icosahedron.fadeInIcosaFace(1, gAverage); // Face 3 has sensor 2
 
   icosahedron.fadeInIcosaFace(3, r2Average);
   icosahedron.fadeInIcosaFace(4, g2Average);
@@ -139,9 +139,12 @@ void loop() {
   icosahedron.fadeInIcosaFace(13, g5Average);
   icosahedron.fadeInIcosaFace(14, b5Average);
 
-  icosahedron.fadeInIcosaFace(15, r6Average);
-  icosahedron.fadeInIcosaFace(16, g6Average);
-  icosahedron.fadeInIcosaFace(17, b6Average);
+  // Face 16 has sensor 17 (g6)
+  icosahedron.fadeInIcosaFace(15, g6Average);
+
+  // 17 and 18 not used
+  // icosahedron.fadeInIcosaFace(16, g6Average);
+  // icosahedron.fadeInIcosaFace(17, b6Average);
 
   // * * * * * pulseFaces * * * * * * *
   icosahedron.updatePulse();

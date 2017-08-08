@@ -4,7 +4,7 @@
 #define NUMPIXELS 216
 #define PIN A15
 #define NUMFACES 18
-#define LEDS_PER_FACE 12
+#define LEDS_PER_FACE 7
 #define HUE_POINTS_PER_FACE 2
 
 class LEDFaces {
