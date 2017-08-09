@@ -23,6 +23,7 @@ class LEDFaces {
     int face0Brightness;
     int hueOffset[3];
     int hueRanges[NUMFACES][HUE_POINTS_PER_FACE];
+    int saturations[NUMFACES];
 
     unsigned long hueOffsetTimer;
     int hueOffsetTimerInterval;
@@ -41,11 +42,13 @@ class LEDFaces {
     for (size_t i = 0; i < NUMFACES; i++) {
       hueOffset[i] = 0;
     }
-    // int hueRanges Array
+    // int hueRanges and saturations
     for (size_t i = 0; i < NUMFACES; i++) {
       for (size_t j = 0; j < HUE_POINTS_PER_FACE; j++) {
         hueRanges[i][j] = 127;
       }
+      // Set default saturaiton to full brightness
+      saturations[i] = 255;
     }
   }
 
@@ -63,8 +66,9 @@ class LEDFaces {
     // color1 and color2 for the first sensor
     hueRanges[face][0] = color1;
     hueRanges[face][1] = color2;
-
-
+  }
+  void setSaturation(int face, int sat) {
+    saturations[face] = sat;
   }
 
   void updatePulse() {
@@ -132,10 +136,12 @@ class LEDFaces {
     int end = start + ledsPerFace;
 
     int hue = map(hueVal, 0, 255, hueRanges[face][0], hueRanges[face][1]);
+    int brightness = hueVal; // Brightness is maped the the same 1 sensor
+    int saturation = saturations[face];
 
     // use rgb values to fade in the face
     for (int i = start; i < end; i++) {
-      sensorLeds[i] = CHSV(hueVal,255,hueVal);
+      sensorLeds[i] = CHSV(hue,saturation,brightness);
     }
   }
   void fadeInFace(int face, int r, int g, int b) {
