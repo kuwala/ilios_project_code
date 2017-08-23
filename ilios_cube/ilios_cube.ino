@@ -35,6 +35,11 @@ int timeInterval2 = 1;
 int timeInterval = 20; //the delay time between steps
 int timeStep = 0; // what step are we on 0, 1, 2 ... -> 0
 
+// Call smoothing function only every 4 loop cycles
+// To Increase the Decay & Attack of it
+int smoothingDecayCounter = 1;
+int smoothingDecayRate = 2;
+
 unsigned long pulseTimer = 0;
 int pulseTimeInterval = 40;
 
@@ -123,12 +128,19 @@ void loop() {
   face5Brightness = cube.getFaceBrightness(5);
   printSerial();
 
-  smoothRGBReading();
-  smoothRGB2Reading();
-  smoothRGB3Reading();
-  smoothRGB4Reading();
-  smoothRGB5Reading();
-  smoothRGB6Reading();
+  smoothingDecayCounter += 1;
+  // Serial.println("smooth counter: ");
+  // Serial.print(smoothingDecayCounter);
+  if (smoothingDecayCounter % smoothingDecayRate == 0) {
+    smoothRGBReading();
+    smoothRGB2Reading();
+    smoothRGB3Reading();
+    smoothRGB4Reading();
+    smoothRGB5Reading();
+    smoothRGB6Reading();
+    smoothingDecayCounter = 0;
+  }
+
 
   // * * * * * FadeInFace * * * * * * *
   // cube.fadeInFace(0, rAverage, gAverage, bAverage);
@@ -157,6 +169,13 @@ void mapSensorsToRGBS() {
   R = sens1;
   G = sens2;
   B = sens3;
+  // R = map(sens1, 0, 190, 0, 255);
+  // G = map(sens2, 0, 190, 0, 255);
+  // B = map(sens3, 0, 190, 0, 255);
+
+  // R = sens1;
+  // G = sens2;
+  // B = sens3;
   R2 = sens4;
   G2 = sens5;
   B2 = sens6;
@@ -192,6 +211,48 @@ void mapSensorsToRGBS() {
   R6 = 255 - R6;
   G6 = 255 - G6;
   B6 = 255 - B6;
+
+  R = constrain(R, 60, 190);
+  G = constrain(G, 60, 190);
+  B = constrain(B, 60, 190);
+  R = map(R, 60, 190, 0, 255);
+  G = map(G, 60, 190, 0, 255);
+  B = map(B, 60, 190, 0, 255);
+
+  R2 = constrain(R2, 60, 190);
+  G2 = constrain(G2, 60, 190);
+  B2 = constrain(B2, 60, 190);
+  R2 = map(R2, 60, 190, 0, 255);
+  G2 = map(G2, 60, 190, 0, 255);
+  B2 = map(B2, 60, 190, 0, 255);
+
+  R3 = constrain(R3, 60, 190);
+  G3 = constrain(G3, 60, 190);
+  B3 = constrain(B3, 60, 190);
+  R3 = map(R3, 60, 190, 0, 255);
+  G3 = map(G3, 60, 190, 0, 255);
+  B3 = map(B3, 60, 190, 0, 255);
+
+  R4 = constrain(R4, 60, 190);
+  G4 = constrain(G4, 60, 190);
+  B4 = constrain(B4, 60, 190);
+  R4 = map(R4, 60, 190, 0, 255);
+  G4 = map(G4, 60, 190, 0, 255);
+  B4 = map(B4, 60, 190, 0, 255);
+
+  R5 = constrain(R5, 60, 190);
+  G5 = constrain(G5, 60, 190);
+  B5 = constrain(B5, 60, 190);
+  R5 = map(R5, 60, 190, 0, 255);
+  G5 = map(G5, 60, 190, 0, 255);
+  B5 = map(B5, 60, 190, 0, 255);
+
+  R6 = constrain(R6, 60, 190);
+  G6 = constrain(G6, 60, 190);
+  B6 = constrain(B6, 60, 190);
+  R6 = map(R6, 60, 190, 0, 255);
+  G6 = map(G6, 60, 190, 0, 255);
+  B6 = map(B6, 60, 190, 0, 255);
 
 }
 
@@ -283,6 +344,7 @@ void printSerial() {
     timer2 = millis();
     // Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12 + String(" ") + sens13 + String(" ") + sens14 + String(" ") + sens15 + String(" ") + sens16 + String(" ") + sens17 + String(" ") + sens18);
     // Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
+    // Serial.println(R + String(" ") + G + String(" ") + B);
     Serial.println(face0Brightness + String(" ") + face1Brightness + String(" ") + face2Brightness + String(" ") + face3Brightness + String(" ") + face4Brightness + String(" ") + face5Brightness);
   }
 } // end Serial
