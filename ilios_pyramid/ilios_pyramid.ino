@@ -160,26 +160,33 @@ void mapSensorsToRGBS() {
   G3 = 255 - G3;
   B3 = 255 - B3;
 
-  R = constrain(R, 60, 190);
-  G = constrain(G, 60, 190);
-  B = constrain(B, 60, 190);
-  R = map(R, 60, 190, 0, 255);
-  G = map(G, 60, 190, 0, 255);
-  B = map(B, 60, 190, 0, 255);
+  // Set the contraint and map ranges
+  // The sensor lower bounds and upper bounds that will
+  // then get scaled to 0 - 255 values
+  int sensorLower = 0;
+  int sensorUpper = 190;
 
-  R2 = constrain(R2, 60, 190);
-  G2 = constrain(G2, 60, 190);
-  B2 = constrain(B2, 60, 190);
-  R2 = map(R2, 60, 190, 0, 255);
-  G2 = map(G2, 60, 190, 0, 255);
-  B2 = map(B2, 60, 190, 0, 255);
+  R = constrain(R, sensorLower, sensorUpper);
+  G = constrain(G, sensorLower, sensorUpper);
+  B = constrain(B, sensorLower, sensorUpper);
+  R = map(R, sensorLower, sensorUpper, 0, 255);
+  G = map(G, sensorLower, sensorUpper, 0, 255);
+  B = map(B, sensorLower, sensorUpper, 0, 255);
 
-  R3 = constrain(R3, 60, 190);
-  G3 = constrain(G3, 60, 190);
-  B3 = constrain(B3, 60, 190);
-  R3 = map(R3, 60, 190, 0, 255);
-  G3 = map(G3, 60, 190, 0, 255);
-  B3 = map(B3, 60, 190, 0, 255);
+  R2 = constrain(R2, sensorLower, sensorUpper);
+  G2 = constrain(G2, sensorLower, sensorUpper);
+  B2 = constrain(B2, sensorLower, sensorUpper);
+  R2 = map(R2, sensorLower, sensorUpper, 0, 255);
+  G2 = map(G2, sensorLower, sensorUpper, 0, 255);
+  B2 = map(B2, sensorLower, sensorUpper, 0, 255);
+
+  R3 = constrain(R3, sensorLower, sensorUpper);
+  G3 = constrain(G3, sensorLower, sensorUpper);
+  B3 = constrain(B3, sensorLower, sensorUpper);
+  R3 = map(R3, sensorLower, sensorUpper, 0, 255);
+  G3 = map(G3, sensorLower, sensorUpper, 0, 255);
+  B3 = map(B3, sensorLower, sensorUpper, 0, 255);
+
 }
 
 void mapSensorsToHSV() {
