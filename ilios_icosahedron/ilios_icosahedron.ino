@@ -223,6 +223,48 @@ void mapSensorsToRGBS() {
   R6 = 255 - R6;
   G6 = 255 - G6;
   B6 = 255 - B6;
+
+  R = constrain(R, 60, 190);
+  G = constrain(G, 60, 190);
+  B = constrain(B, 60, 190);
+  R = map(R, 60, 190, 0, 255);
+  G = map(G, 60, 190, 0, 255);
+  B = map(B, 60, 190, 0, 255);
+
+  R2 = constrain(R2, 60, 190);
+  G2 = constrain(G2, 60, 190);
+  B2 = constrain(B2, 60, 190);
+  R2 = map(R2, 60, 190, 0, 255);
+  G2 = map(G2, 60, 190, 0, 255);
+  B2 = map(B2, 60, 190, 0, 255);
+
+  R3 = constrain(R3, 60, 190);
+  G3 = constrain(G3, 60, 190);
+  B3 = constrain(B3, 60, 190);
+  R3 = map(R3, 60, 190, 0, 255);
+  G3 = map(G3, 60, 190, 0, 255);
+  B3 = map(B3, 60, 190, 0, 255);
+
+  R4 = constrain(R4, 60, 190);
+  G4 = constrain(G4, 60, 190);
+  B4 = constrain(B4, 60, 190);
+  R4 = map(R4, 60, 190, 0, 255);
+  G4 = map(G4, 60, 190, 0, 255);
+  B4 = map(B4, 60, 190, 0, 255);
+
+  R5 = constrain(R5, 60, 190);
+  G5 = constrain(G5, 60, 190);
+  B5 = constrain(B5, 60, 190);
+  R5 = map(R5, 60, 190, 0, 255);
+  G5 = map(G5, 60, 190, 0, 255);
+  B5 = map(B5, 60, 190, 0, 255);
+
+  R6 = constrain(R6, 60, 190);
+  G6 = constrain(G6, 60, 190);
+  B6 = constrain(B6, 60, 190);
+  R6 = map(R6, 60, 190, 0, 255);
+  G6 = map(G6, 60, 190, 0, 255);
+  B6 = map(B6, 60, 190, 0, 255);
 }
 
 void mapSensorsToHSV() {

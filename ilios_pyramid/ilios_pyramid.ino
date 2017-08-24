@@ -159,6 +159,27 @@ void mapSensorsToRGBS() {
   R3 = 255 - R3;
   G3 = 255 - G3;
   B3 = 255 - B3;
+
+  R = constrain(R, 60, 190);
+  G = constrain(G, 60, 190);
+  B = constrain(B, 60, 190);
+  R = map(R, 60, 190, 0, 255);
+  G = map(G, 60, 190, 0, 255);
+  B = map(B, 60, 190, 0, 255);
+
+  R2 = constrain(R2, 60, 190);
+  G2 = constrain(G2, 60, 190);
+  B2 = constrain(B2, 60, 190);
+  R2 = map(R2, 60, 190, 0, 255);
+  G2 = map(G2, 60, 190, 0, 255);
+  B2 = map(B2, 60, 190, 0, 255);
+
+  R3 = constrain(R3, 60, 190);
+  G3 = constrain(G3, 60, 190);
+  B3 = constrain(B3, 60, 190);
+  R3 = map(R3, 60, 190, 0, 255);
+  G3 = map(G3, 60, 190, 0, 255);
+  B3 = map(B3, 60, 190, 0, 255);
 }
 
 void mapSensorsToHSV() {
