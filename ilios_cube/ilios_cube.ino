@@ -23,11 +23,11 @@
 
 
 // LED strip pin
-#define PIN A15
-//#define PIN2           4
+// #define PIN A15
 
 // 12 pixels per set
 #define NUMPIXELS 82
+#define NUMSENSORS 18
 
 unsigned long timer = 0;
 unsigned long timer2 = 0;
@@ -49,9 +49,9 @@ int pulseTimeInterval = 40;
 LEDFaces cube = LEDFaces();
 
 // Variables that store color values from sensors
-int R = 0;
-int G = 0;
-int B = 0;
+int R = 255;
+int G = 255;
+int B = 255;
 int R2 = 0;
 int G2 = 0;
 int B2 = 0;
@@ -83,15 +83,23 @@ int hue4 = 0; int sat4 = 0; int val4 = 0; int pulse4 = 0;
 int hue5 = 0; int sat5 = 0; int val5 = 0; int pulse5 = 0;
 int hue6 = 0; int sat6 = 0; int val6 = 0; int pulse6 = 0;
 
+// DummySensor code
+float angle = 1.47;
+float smoothedSensor1 = 0;
+float smoothedSensor2 = 0;
+float smoothedSensor3 = 0;
+
+// reminder change pin in LEDFaces.h
+
 void setup() {
   // Proximity_controller
   // Initialize GPIO pins.
-  initPins();
+  // - - - - - - - - -  // initPins();
   // Initialize the Wire library.
   Wire.begin();
 
   Serial.begin(230400);
-  initSensors();
+  // - - - - - - - - -  //   initSensors();
 
   // Init smoothing values to zeros
   for (int i = 0 ; i < NUMREADINGS; i ++ ) {
@@ -112,10 +120,11 @@ void setup() {
 }
 
 
-
 void loop() {
 
-  keepReadingSensors18();
+  // keepReadingSensors18();
+
+  dummySensorValues();
 
   mapSensorsToRGBS();
   mapSensorsToHSV();
@@ -126,18 +135,19 @@ void loop() {
   face3Brightness = cube.getFaceBrightness(3);
   face4Brightness = cube.getFaceBrightness(4);
   face5Brightness = cube.getFaceBrightness(5);
-  printSerial();
+  // printSerial();
 
   smoothingDecayCounter += 1;
   // Serial.println("smooth counter: ");
   // Serial.print(smoothingDecayCounter);
   if (smoothingDecayCounter % smoothingDecayRate == 0) {
-    smoothRGBReading();
-    smoothRGB2Reading();
-    smoothRGB3Reading();
-    smoothRGB4Reading();
-    smoothRGB5Reading();
-    smoothRGB6Reading();
+    easeSensors();
+    // smoothRGBReading();
+    // smoothRGB2Reading();
+    // smoothRGB3Reading();
+    // smoothRGB4Reading();
+    // smoothRGB5Reading();
+    // smoothRGB6Reading();
     smoothingDecayCounter = 0;
   }
 
@@ -164,6 +174,54 @@ void loop() {
 
   cube.show();
 
+}
+float easeInOut(float currentSensorValue, float targetSensorValue) {
+  // Needs to be a number between 0 - 1
+  // Lower number is more easeing and takes longer
+  // for the sensor to get to its intended value
+  float easeInModifier = 0.5; // quicker attack
+  float easeOutModifier = 0.01; // slower decay
+  float easeAmount = 0;
+  if ( (targetSensorValue - currentSensorValue ) > 0) {
+    // easeIn
+    easeAmount = (targetSensorValue - currentSensorValue) * easeInModifier;
+  } else {
+    // easeOut
+    easeAmount = (targetSensorValue - currentSensorValue) * easeOutModifier;
+  }
+
+  float smoothedSensor = currentSensorValue + easeAmount;
+  return smoothedSensor;
+}
+void easeSensors() {
+  // Ease in and out each sensor value
+  // With a seperat speed of easing in and out
+  // Like an Attack / Decay
+  // Stores the eased values into the rgb Average variables
+  // the whole sensor code preforably needs to be refactored
+  rAverage = easeInOut(rAverage, R);
+  gAverage = easeInOut(gAverage, G);
+  bAverage = easeInOut(bAverage, B);
+
+  r2Average = easeInOut(r2Average, R2);
+  g2Average = easeInOut(g2Average, G2);
+  b2Average = easeInOut(b2Average, B2);
+
+  r3Average = easeInOut(r3Average, R3);
+  g3Average = easeInOut(g3Average, G3);
+  b3Average = easeInOut(b3Average, B3);
+
+  r4Average = easeInOut(r4Average, R4);
+  g4Average = easeInOut(g4Average, G4);
+  b4Average = easeInOut(b4Average, B4);
+
+  r5Average = easeInOut(r5Average, R5);
+  g5Average = easeInOut(g5Average, G5);
+  b5Average = easeInOut(b5Average, B5);
+
+  r6Average = easeInOut(r6Average, R6);
+  g6Average = easeInOut(g6Average, G6);
+  b6Average = easeInOut(b6Average, B6);
 }
 void mapSensorsToRGBS() {
   R = sens1;
@@ -212,7 +270,7 @@ void mapSensorsToRGBS() {
   G6 = 255 - G6;
   B6 = 255 - B6;
 
-  // Set the contraint and map ranges
+  // Set the constraint and map ranges
   // The sensor lower bounds and upper bounds that will
   // then get scaled to 0 - 255 values
   int sensorLower = 0;
@@ -569,4 +627,46 @@ void smoothRGB6Reading() {
     b6ReadIndex = 0;
   }
   b6Average = b6Total / NUMREADINGS;
+}
+void dummySensorValues() {
+  // For testing led strip without
+  // Sensors connected.
+
+  // Using a potentiometer to emulate sensor input
+  int knob = analogRead(A1);
+  Serial.println(knob);
+  int value = map(knob, 0, 1023, 0, 255);
+
+  // Using a sinWave to emulate sensor input
+  // angle += 0.003;
+  // cut value back to 0-ish
+  // if (angle > 3.14) {
+  //   angle = 1.57;
+  // }
+  // int value = sin(angle) * 255;
+
+  // set to 255 to turn off the leds
+  // value = 255;
+  sens1 = value;
+  sens2 = value;
+  sens3 = value;
+
+  sens4 = value;
+  sens5 = value;
+  sens6 = value;
+
+  sens7 = value;
+  sens8 = value;
+  sens9 = value;
+  // value = 255;
+
+  sens10 = value;
+  sens11 = value;
+  sens12 = value;
+  sens13 = value;
+  sens14 = value;
+  sens15 = value;
+  sens16 = value;
+  sens17 = value;
+  sens18 = value;
 }
