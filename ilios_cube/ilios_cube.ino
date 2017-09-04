@@ -29,6 +29,13 @@
 #define NUMPIXELS 82
 #define NUMSENSORS 18
 
+// 0 - 1 value ranges
+// smaller values are
+// take more time
+#define EASEINMOD 0.5
+#define EASEOUTMOD 0.008
+
+
 unsigned long timer = 0;
 unsigned long timer2 = 0;
 int timeInterval2 = 1;
@@ -88,6 +95,8 @@ float angle = 1.47;
 float smoothedSensor1 = 0;
 float smoothedSensor2 = 0;
 float smoothedSensor3 = 0;
+// quicker attack
+
 
 // reminder change pin in LEDFaces.h
 
@@ -95,6 +104,7 @@ void setup() {
   // Proximity_controller
   // Initialize GPIO pins.
   // - - - - - - - - -  // initPins();
+  initPins();
   // Initialize the Wire library.
   Wire.begin();
 
@@ -122,9 +132,9 @@ void setup() {
 
 void loop() {
 
-  // keepReadingSensors18();
+  keepReadingSensors18();
 
-  dummySensorValues();
+  // dummySensorValues();
 
   mapSensorsToRGBS();
   mapSensorsToHSV();
@@ -179,8 +189,8 @@ float easeInOut(float currentSensorValue, float targetSensorValue) {
   // Needs to be a number between 0 - 1
   // Lower number is more easeing and takes longer
   // for the sensor to get to its intended value
-  float easeInModifier = 0.5; // quicker attack
-  float easeOutModifier = 0.01; // slower decay
+  float easeInModifier = EASEINMOD; // quicker attack
+  float easeOutModifier = EASEOUTMOD; // slower decay
   float easeAmount = 0;
   if ( (targetSensorValue - currentSensorValue ) > 0) {
     // easeIn

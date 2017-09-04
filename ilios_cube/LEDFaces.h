@@ -3,8 +3,8 @@
 // 12 * 3 faces
 #define NUMPIXELS 72
 #define LEDS_PER_FACE 12
-// #define PIN A15
-#define PIN A0
+#define PIN A15
+
 #define NUMFACES 6
 #define HUE_POINTS_PER_FACE 2
 
