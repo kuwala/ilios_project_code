@@ -119,12 +119,14 @@ void loop() {
   face1Brightness = pyramid.getFaceBrightness(1);
   face2Brightness = pyramid.getFaceBrightness(2);
 
-  smoothRGBReading();
-  smoothRGB2Reading();
-  smoothRGB3Reading();
-  smoothRGB4Reading();
-  smoothRGB5Reading();
-  smoothRGB6Reading();
+  // Smoothing and Easying of sensors
+  // smoothRGBReading();
+  // smoothRGB2Reading();
+  // smoothRGB3Reading();
+  // smoothRGB4Reading();
+  // smoothRGB5Reading();
+  // smoothRGB6Reading();
+  easeSensors();
 
   // * * * * * DrawLEDS * * * * * * *
   // pyramid.fadeInFace(0, rAverage, gAverage, bAverage);
@@ -180,17 +182,18 @@ void easeSensors() {
   g3Average = easeInOut(g3Average, G3);
   b3Average = easeInOut(b3Average, B3);
 
-  r4Average = easeInOut(r4Average, R4);
-  g4Average = easeInOut(g4Average, G4);
-  b4Average = easeInOut(b4Average, B4);
-
-  r5Average = easeInOut(r5Average, R5);
-  g5Average = easeInOut(g5Average, G5);
-  b5Average = easeInOut(b5Average, B5);
-
-  r6Average = easeInOut(r6Average, R6);
-  g6Average = easeInOut(g6Average, G6);
-  b6Average = easeInOut(b6Average, B6);
+  // Not used in the Pyramid shape
+  // r4Average = easeInOut(r4Average, R4);
+  // g4Average = easeInOut(g4Average, G4);
+  // b4Average = easeInOut(b4Average, B4);
+  //
+  // r5Average = easeInOut(r5Average, R5);
+  // g5Average = easeInOut(g5Average, G5);
+  // b5Average = easeInOut(b5Average, B5);
+  //
+  // r6Average = easeInOut(r6Average, R6);
+  // g6Average = easeInOut(g6Average, G6);
+  // b6Average = easeInOut(b6Average, B6);
 }
 
 void mapSensorsToRGBS() {

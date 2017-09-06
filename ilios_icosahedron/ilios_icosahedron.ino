@@ -31,8 +31,9 @@
 // 0 - 1 value ranges
 // smaller values are
 // take more time
-#define EASEINMOD 0.5
+#define EASEINMOD 0.1
 #define EASEOUTMOD 0.008
+#define EASEOUTMODSERIAL 0.1
 
 
 unsigned long timer = 0;
@@ -68,6 +69,31 @@ int B5 = 0;
 int R6 = 0;
 int G6 = 0;
 int B6 = 0;
+
+// Sensors serial out
+int rSerialOut = 0;
+int gSerialOut = 0;
+int bSerialOut = 0;
+
+int r2SerialOut = 0;
+int g2SerialOut = 0;
+int b2SerialOut = 0;
+
+int r3SerialOut = 0;
+int g3SerialOut = 0;
+int b3SerialOut = 0;
+
+int r4SerialOut = 0;
+int g4SerialOut = 0;
+int b4SerialOut = 0;
+
+int r5SerialOut = 0;
+int g5SerialOut = 0;
+int b5SerialOut = 0;
+
+int r6SerialOut = 0;
+int g6SerialOut = 0;
+int b6SerialOut = 0;
 
 
 int face0Brightness = 0;
@@ -132,12 +158,13 @@ void loop() {
   face1Brightness = icosahedron.getFaceBrightness(1);
   face2Brightness = icosahedron.getFaceBrightness(2);
 
-  smoothRGBReading();
-  smoothRGB2Reading();
-  smoothRGB3Reading();
-  smoothRGB4Reading();
-  smoothRGB5Reading();
-  smoothRGB6Reading();
+  // smoothRGBReading();
+  // smoothRGB2Reading();
+  // smoothRGB3Reading();
+  // smoothRGB4Reading();
+  // smoothRGB5Reading();
+  // smoothRGB6Reading();
+  easeSensors();
 
   // * * * * * DrawLEDS * * * * * * *
   // icosahedron.fadeInFace(0, rAverage, gAverage, bAverage);
@@ -207,6 +234,25 @@ float easeInOut(float currentSensorValue, float targetSensorValue) {
   float smoothedSensor = currentSensorValue + easeAmount;
   return smoothedSensor;
 }
+
+float easeInOutSerial(float currentSensorValue, float targetSensorValue) {
+  // Needs to be a number between 0 - 1
+  // Lower number is more easeing and takes longer
+  // for the sensor to get to its intended value
+  float easeInModifier = EASEINMOD; // quicker attack
+  float easeOutModifier = EASEOUTMODSERIAL; // slower decay
+  float easeAmount = 0;
+  if ( (targetSensorValue - currentSensorValue ) > 0) {
+    // easeIn
+    easeAmount = (targetSensorValue - currentSensorValue) * easeInModifier;
+  } else {
+    // easeOut
+    easeAmount = (targetSensorValue - currentSensorValue) * easeOutModifier;
+  }
+
+  float smoothedSensor = currentSensorValue + easeAmount;
+  return smoothedSensor;
+}
 void easeSensors() {
   // Ease in and out each sensor value
   // With a seperat speed of easing in and out
@@ -236,6 +282,30 @@ void easeSensors() {
   r6Average = easeInOut(r6Average, R6);
   g6Average = easeInOut(g6Average, G6);
   b6Average = easeInOut(b6Average, B6);
+  // seperate serial out eased
+  rSerialOut = easeInOutSerial(rSerialOut, R);
+  gSerialOut = easeInOutSerial(gSerialOut, G);
+  bSerialOut = easeInOutSerial(bSerialOut, B);
+
+  r2SerialOut = easeInOutSerial(r2SerialOut, R2);
+  g2SerialOut = easeInOutSerial(g2SerialOut, G2);
+  b2SerialOut = easeInOutSerial(b2SerialOut, B2);
+
+  r3SerialOut = easeInOutSerial(r3SerialOut, R3);
+  g3SerialOut = easeInOutSerial(g3SerialOut, G3);
+  b3SerialOut = easeInOutSerial(b3SerialOut, B3);
+
+  r4SerialOut = easeInOutSerial(r4SerialOut, R4);
+  g4SerialOut = easeInOutSerial(g4SerialOut, G4);
+  b4SerialOut = easeInOutSerial(b4SerialOut, B4);
+
+  r5SerialOut = easeInOutSerial(r5SerialOut, R5);
+  g5SerialOut = easeInOutSerial(g5SerialOut, G5);
+  b5SerialOut = easeInOutSerial(b5SerialOut, B5);
+
+  r6SerialOut = easeInOutSerial(r6SerialOut, R6);
+  g6SerialOut = easeInOutSerial(g6SerialOut, G6);
+  b6SerialOut = easeInOutSerial(b6SerialOut, B6);
 }
 
 void mapSensorsToRGBS() {
@@ -378,9 +448,15 @@ void printSerial() {
   if (millis() - timer2 > timeInterval2) {
     timer2 = millis();
     // Serial.println(sens1 + String(" ") + sens2 + String(" ") + sens3 + String(" ") + sens4 + String(" ") + sens5 + String(" ") + sens6 + String(" ") + sens7 + String(" ") + sens8 + String(" ") + sens9 + String(" ") + sens10 + String(" ") + sens11 + String(" ") + sens12);
-    Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + r2Average + String(" ") + g2Average + String(" ") + b2Average + String(" ")
-     + r3Average + String(" ") + g3Average + String(" ") + b3Average + String(" ") + r4Average + String(" ") + g4Average + String(" ") + b4Average + String(" ")
-     + r5Average + String(" ") + g5Average + String(" ") + b5Average + String(" ") + r6Average + String(" ") + g6Average + String(" ") + b6Average + String(" "));
+
+    // old smoothed serial
+    // Serial.println(rAverage + String(" ") + gAverage + String(" ") + bAverage + String(" ") + r2Average + String(" ") + g2Average + String(" ") + b2Average + String(" ")
+    //  + r3Average + String(" ") + g3Average + String(" ") + b3Average + String(" ") + r4Average + String(" ") + g4Average + String(" ") + b4Average + String(" ")
+    //  + r5Average + String(" ") + g5Average + String(" ") + b5Average + String(" ") + r6Average + String(" ") + g6Average + String(" ") + b6Average + String(" "));
+
+    Serial.println(rSerialOut + String(" ") + gSerialOut + String(" ") + bSerialOut + String(" ") + r2SerialOut + String(" ") + g2SerialOut + String(" ") + b2SerialOut + String(" ")
+     + r3SerialOut + String(" ") + g3SerialOut + String(" ") + b3SerialOut + String(" ") + r4SerialOut + String(" ") + g4SerialOut + String(" ") + b4SerialOut + String(" ")
+     + r5SerialOut + String(" ") + g5SerialOut + String(" ") + b5SerialOut + String(" ") + r6SerialOut + String(" ") + g6SerialOut + String(" ") + b6SerialOut + String(" "));
     // Serial.println(face0Brightness);
   }
 } // end Serial
